@@ -1,0 +1,7 @@
+// gps 설정에 대한 자료들
+
+https://codechacha.com/ko/android-get-location-from-gms/
+https://codechacha.com/ko/android-get-location-from-locationmanager/
+https://fogsbane.dev/ko/questions/1513485?
+https://okky.kr/article/382110
+
