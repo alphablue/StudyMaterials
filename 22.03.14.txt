@@ -5,3 +5,25 @@ https://codechacha.com/ko/android-get-location-from-locationmanager/
 https://fogsbane.dev/ko/questions/1513485?
 https://okky.kr/article/382110
 
+
+// jetpack compose 개발 내용들 확인
+
+// 키보드 관련 내용
+https://dev.to/tkuenneth/keyboard-handling-in-jetpack-compose-2593
+
+// 캐시와 코틀린 flow 사용
+https://adavis.info/2022/03/improved-caching-with-kotlin-flows-and-the-reduce-function.html?utm_source=rss&utm_medium=rss&utm_campaign=improved-caching-with-kotlin-flows-and-the-reduce-function
+
+// compose testing
+https://joebirch.co/android/testing-an-authentication-form-with-jetpack-compose/
+
+// 카메라 업로드 기능 개선 - dropbox
+https://dropbox.tech/mobile/making-camera-uploads-for-android-faster-and-more-reliable
+
+// retrofit
+https://www.youtube.com/watch?v=tmu6ou-Ur9M
+
+
+// hilt에 대한 공부
+https://developer88.tistory.com/172
+https://developer.android.com/training/dependency-injection/hilt-multi-module
