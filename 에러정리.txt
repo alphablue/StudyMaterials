@@ -1,0 +1,68 @@
+// 문제1. 초기화 에러가 발생함
+참고 : https://stackoverflow.com/questions/60608101/how-request-permissions-with-jetpack-compose
+
+val launcher = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+        permission ->
+        when {
+            permission.getOrDefault(Manifest.permission.CAMERA, false)
+            -> {
+            }
+
+            permission.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false)
+            -> {
+                val settingIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivity(context, settingIntent, null)
+            }
+            else -> {
+            }
+        }
+    }
+
+-> 해결방법
+참고 1 : https://ichi.pro/ko/jetpack-composelo-won-taeb-jeonhwa-beonho-logeu-in-181688839103070
+
+side effect 부분에 잘 설명이 되어 있다. 이 부분은 상황에 따라서 조사후 사용하면 좋을 뜻 하다.
+내가 적용한 것은 LaunchedEffect 를 활용 하는 것이다.
+
+// 문제2. startActivity가 실행되지 않음
+fine location 의 설정창에는 잘 가지는데 카메라 권한을 위한 곳은 가지지 않는 문제가 있음
+Intent(Settings.ACTION_APPLICATION_DETAIL)을 실행하기 위한 조건이 있는듯
+
+-> 해결
+https://stackoverflow.com/questions/32822101/how-can-i-programmatically-open-the-permission-screen-for-a-specific-app-on-andr
+
+val settingIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", context.packageName, null)
+                settingIntent.data = uri
+                startActivity(context, settingIntent, null)
+
+디테일한 설정창으로 가기위해서는 실행중인 앱의 패키지를 알아야 그 앱에 맞는 설정창을 열 수 있다. 따라서 그것을 설정 해줄
+추가적인 정보를 기제할 필요가 있음
+
+
+// 문제3. 세팅창에서 이동했을 때 권한을 변경 했는지 이벤트를 잡고 싶은데 compose에서는 힘듬
+참고 1. https://stackoverflow.com/questions/66546962/jetpack-compose-how-do-i-refresh-a-screen-when-app-returns-to-foreground
+
+내가 보기에는 수명주기를 activity에 넣어주고 그 액티비가 실행되는 시점에 맞춰서 퍼미션을 체크 하도록 해줘야 할 것 같음 클릭 이벤트나
+엑티비티의 이동이나 작동은 컴포즈들을 타고 넘어가는 방법으로 분리 해야 할 것 같다.
+
+ 세부 문제 1.) 컴포즈에서 콜백으로 데이터를 받아서 rememberLauncherForActivityResult를 실행하려 했지만 수명주기를 찾아서 맞춰서 실행해주기에 어려운 문제가 있었음
+ 그에 따라 엑티비티에서 실행하도록 하려 했지만 세팅창으로 이동 시키는데 
+ outside of an Activity context requires the FLAG_ACTIVITY_NEW_TASK flag
+ 에러가 뜨면서 세팅창으로 넘어가지 못하는 현상이 발생
+
+ 세부 분제 1. 해결 -> 
+ fun goDetailApplicationSetting(context: Context) {
+    val settingIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+    val uri = Uri.fromParts("package", context.packageName, null)
+    settingIntent.data = uri
+
+    /** 이 부분을 추가 해 줌으로 새로운 작업으로 실행 하도록 했음 **/
+    settingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    context.startActivity(settingIntent)
+}
+
+ 세부 분제 2.) 하지만 엑티비티 종속적이기 때문에 콤포즈로 구분해서 사용하기 어려움, 나중에는 촬영 하려면 촬영을 위한 버튼이 있고
+ 그 버튼을 클릭했을 때 권한을 체크하도록 분리해서 상황별 권한을 확인 하도록 하는 것이 더 의미가 있을 것으로 생각됨
+
+ 권한을 거부 했을 시에는 앱 사용을 못하도록 하는 것이 편리할 뜻
