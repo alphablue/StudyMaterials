@@ -66,3 +66,26 @@ val settingIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
  그 버튼을 클릭했을 때 권한을 체크하도록 분리해서 상황별 권한을 확인 하도록 하는 것이 더 의미가 있을 것으로 생각됨
 
  권한을 거부 했을 시에는 앱 사용을 못하도록 하는 것이 편리할 뜻
+
+
+// 문제 4. compose의 텍스트 요소를 중앙 정렬 하고 싶을때 방법을 모름
+해결 -> modifier.wrapContentHeight() 를 주면 중앙 정렬됨
+
+// 문제 5. textButton에 height를 주고 내부 텍스트의 버튼 클릭의 영역을 맞출려고 하니 내부 텍스트가 보이는 영역에서만 클릭을 할 수 있는 문제가 있음
+해결 ->
+TextButton(
+        modifier = modifier
+            .height(240.dp)
+            .padding(6.dp)
+            .border(1.dp, color = borderColor),
+        onClick = onClick,
+    ) {
+        Text(text = title,
+            textAlign = TextAlign.Center,
+            fontSize = 32.sp,
+            modifier= Modifier.fillMaxSize(1f).wrapContentHeight(),
+            color= Color.LightGray)
+    }
+
+위의 코드에서 보듯이 내부 text의 높이와 내부 텍스트를 중아으로 정렬하니 모든 영역에서 클릭을 할 수 있음
+
