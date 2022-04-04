@@ -133,3 +133,142 @@ while (cursor.moveToNext()) {
 
 먼저 contentUri 를 살펴보자 공식 문서에 의하면 아래와 같이 안내하고 있다. (https://developer.android.com/reference/android/content/ContentUris)
  <Content URIs have the syntax>  content://authority/path/id
+
+val mimeTypeMap = MimeTypeMap.getSingleton()
+val extensions = listOf("gif", "pdf", "png", "mp3", "avi", "jpeg", "zip", "csv", "avi", "txt")
+for (extension in extensions) {
+            val mimeType = mimeTypeMap.getMimeTypeFromExtension(extension)
+
+            Log.d(TAG, "extension: $extension, mimeType: $mimeType")
+        }
+
+mime의 종류를 살펴볼려면 위의 코드를 활용하자
+
+해결 ->
+파일의 접근과 리스트를 받기위해서는 위에서처럼 복잡한 과정이 필요하지 않다. 그 이유는 위에 경우에는 app to app 을 위한 과정이기 때문에 실제로 복잡한 것이고
+앱내에서 권한과 실행을 위해서는 단순히 File API만 잘 다뤄주면 된다.
+즉 URI를 잘 받아오는 것이 중요한 과제라고 볼 수 있다.
+
+https://stackoverflow.com/questions/51168486/getting-list-of-images-from-a-folder-in-android-kotlin
+위 링크에는 가장 기본적인 접근이 나와 있고 나도 비슷한 접근을 했다. 코드를 보자.
+
+val mediaDir = externalMediaDirs.firstOrNull()?.let {
+            File(it, getString(R.string.app_name)).apply { mkdirs() }
+            it
+        } ?: return
+
+val fileList = mediaDir.let { File(it, getString(R.string.app_name)).run { listFiles() } }
+
+// 파일 목록을 가져온 부분
+fileList.forEachIndexed { index, file ->
+            Log.d(TAG, "is file datas? ::: data >> $file")
+
+            if (index % 4 == 0) {
+                Log.d(TAG, "delete File name ::: name >>> $file")
+
+                // 삭제를 위한 부분
+                File(file.toURI()).apply { delete() }
+            }
+        }
+
+이렇게 하면 uri는 /storage/emulated/0/Android/media/com.example.autocameracompose/AutoCameraCompose가 나온다.
+/storage/emulated/0/Android/media/PACKAGE_NAME 이 부분까지가 externalMediaDirs에서 받아오는 것이고 뒤에는 앱의 이름이다.
+
+FILE 에서는 재미있게도 디렉토리와 파일을 구분해서 접근할 수 있다. 그러므로 uri이 디렉토리인지 파일 인지 잘 생각해서 접근하는 것이 좋겠다.
+
+
+문제 11. FTP로 데이터 전송하기
+해결 -> 2개의 블로그 글을 찾았다. FTP4j를 이용하는 것과 apache 를 사용하는것
+
+아파치 :: https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=ambidext&logNo=221487781896
+FTP4j :: https://stackoverflow.com/questions/50224728/how-to-use-the-ftp-to-upload-a-small-file-or-an-image-in-android-studio-using-ko
+
+
+문제 12. context에서 externalMediaDirs에 직접적인 접근을 하려 봤더니 deprecated되어 있었다. 다른 방법을 찾아야 했음
+해결 -> context.externalMediaDirs 이 deprecated 되어서 이제는 MediaStore를 활용해 접근해야 한다.
+
+문제 13. compose에서 viewmodel을 제대로 DI가 안되는 문제가 있음
+해결 -> https://stackoverflow.com/questions/66390658/jetpack-compose-viewmodel-is-giving-error-has-no-zero-argument-constructor-w
+여기서 보면 알겠지만 네비게이션과 함께 쓰는 경우 hiltViewModel()을 사용 해야 한다.
+참고 ) https://stackoverflow.com/questions/63144315/how-to-inject-app-context-in-viewmodel-with-hilt
+
+
+*** 문제 14. 안드로이드로 FTP(port : 21), SFTP(port : 22) 접근하기
+
+ 세부 문제 1.) 먼저 https로 접근 하는 것이 아니기 때문에 http의 허용을 해줘야 한다. 이것은 안드로이드 정책에서 위험 권한에 속하는 부분으로 설정이 번거롭다.
+ 해결 -> https://velog.io/@skdlsrb1212/android-http-%EC%82%AC%EC%9A%A9-%EC%97%90%EB%9F%AC-%ED%95%B4%EA%B2%B0
+
+ 세부 문제 2.) FTP를 보내기 위해서 활용한 방법으로는 문제 11. 을 통해서 해결 했다.
+
+ 세부 문제 3.) FTP를 구현하고 보니 port 22를 쓰는 SFTP는 FTP4j가 지원하지 않는 것 이였다. 실행이 안되는 것이 맞음
+ 해결 -> JSCH (SFTP)를 사용하기로 했다.
+ 
+ 아주 오래된 라이브러리라고 하는데 일일이 구현할 수 없으므로 일단은 사용하기로 함.
+ 참고 -> https://ourcodeworld.com/articles/read/30/how-to-upload-a-file-to-a-server-using-jsch-sftp-in-android
+        https://jsonobject.tistory.com/513
+
+ 참고2. -> 하다가 엄청 에러를 많이 봤는데 그중에 대표적인 것이 no such file 이다. 이것은 put할때 위치와 파일명을 구분해주지 않아서 생기는 문젠데.
+ put 을 하기전에 channel이 현재 어디의 위치에 존재하는지 확인을 하기 위해서 pwd()를 통해서 정보를 받아오고 이후에는 원하는 디렉토리에 맞춰 이동 시켜 파일명만
+ put에 기제해 줘야 할 것 같다. 사실 정확한 작동 방식은 모르는데 이렇게 진행 해야 하는 것 같음
+
+ 일단 만들었던 전체 코드를 첨부
+fun uploadFileWithSFTP(file: File) {
+    var session: Session? = null
+    try {
+        session = JSch().getSession("USER", "13.209.66.185")
+        session.setConfig(Properties().apply {
+            this["StrictHostKeyChecking"] = "no"
+        })
+        session.setPassword("qwert123!@#")
+        session.connect()
+        val channel = session.openChannel("sftp") as ChannelSftp
+        channel.connect()
+        // 파일 전송 실행
+        // 원본 파일 경로 문자열 또는 InputStream 객체를 전달 가능
+        Log.d("mainActivity", "sftp file path check ::: path >>> ${file.toString()}")
+
+        val targetStream = FileInputStream(file)
+        val fileName = file.toString().split("/").last()
+//        channel.put(file.toString(), "./home/USER/")
+
+        val pwd = channel.pwd()
+        Log.d("mainActivity", "check sftp current position ::: pwd >> $pwd")
+        channel.put(targetStream, "$fileName")
+        channel.disconnect()
+    } catch (ex: FileNotFoundException) {
+        Log.d("mainActivity", "sftp error FileNotFoundException ::: error >>> ${ex.printStackTrace()}")
+        // 소스 파일이 존재하지 않을 경우 예외 처리
+    } catch (ex: UnknownHostException) {
+        Log.d("mainActivity", "sftp error UnknownHostException ::: error >>> ${ex.printStackTrace()}")
+        // 파일을 전송할 원격 호스트가 유효하지 않을 경우 예외 처리
+    } catch (ex: JSchException) {
+        when(ex.message) {
+            "Auth fail" -> {
+                Log.d("mainActivity", "sftp error password or username ::: error >>> ${ex.printStackTrace()}")
+            }// username 또는 password가 일치하지 않을 경우 예외 처리
+            else -> {
+                Log.d("mainActivity", "sftp error JSchException ::: error >>> ${ex.printStackTrace()}")
+                ex.printStackTrace()
+            }
+        }
+    } catch (ex: SftpException) {
+        when(ex.message) {
+            "Permission denied" -> {
+                Log.d("mainActivity", "sftp error permission denied ::: error >>> ${ex.printStackTrace()}")
+            } // 대상 디렉토리 및 파일에 대한 쓰기 권한이 없을 경우 예외 처리
+            else -> {
+                Log.d("mainActivity", "sftp error SftpException ::: error >>> ${ex.printStackTrace()}, message >>> ${ex.message}")
+                ex.printStackTrace()
+            }
+        }
+    } catch (ex: Exception) {
+        Log.d("mainActivity", "sftp error Exception ::: error >>> ${ex.printStackTrace()}")
+        ex.printStackTrace()
+    } finally {
+        session ?.disconnect()
+    }
+}
+
+
+
+
