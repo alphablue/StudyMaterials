@@ -270,5 +270,81 @@ fun uploadFileWithSFTP(file: File) {
 }
 
 
+*** 문제 15. 안드로이드에서 파일의 생성과 접근을 위한 경로 설정이 어려움
+해결 -> 생각보다 엄청 쉬운 문제 인데 개념을 잘 모르면 헤매는 부분이기도 하다. 먼저 안드로이드에서 정책상 사용하고 있는 저장 공간에 대해 알아야 한다.
 
+크게 2개의 공간으로 나뉜다.
+internal storage
+ 해당 앱에서만 사용이 가능하고 외부에서 접근 할 수 없는 공간이다.
 
+tip --> 이 공간은 디바이스에서 탐색기를 통해서 데이터를 열람할 수 없고 안드로이드 스튜디오에 device file explorer를 통해서 data/data/[app_package] 를 찾으면
+안에 있는 데이터를 확인 할 수 있다.
+https://choidev-1.tistory.com/70
+
+external storage
+ 해당 앱 말고도 여러 앱에서 접근이 가능한 저장공간이다. 앱이 삭제 되더라도 지워지지 않는 영구적인 저장공간으로 대부분 이 공간을 사용한다.
+ 단순하게 접근하는 방법은 
+ applicationContext.externalMediaDirs 이지만 다른 특정한 폴더를 찾고 싶을땐
+
+ 아래의 코드를 사용하면 된다.
+ applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath
+
+ 기초적인 이해를 위한 블로그
+ >> https://black-jin0427.tistory.com/236
+ >> https://juahnpop.tistory.com/218
+
+그리고 각 storage 안에서도 file, cache 등의 파일 디렉터리 들이 존재 하기 때문에 더 헷갈리기도 하다.
+
+코드상으로 경로를 알아보면
+applicationContext.filesDir 의 경우는 internal storage를 말한다. 외부에서 파일을 접근할 수 없고 오직 앱이 존재하는 경우에만 있는 데이터 이다.
+
+하지만 applicationContext.externalMediaDirs 를 사용한다면 외부에서도 접근이 가능한 공간에 저장을 하게 된다. 이후 MediaStore를 사용하도록 정책이 변경 되었지만
+일단은 경로가 이렇게 나뉜다는 것을 알아두면 좋을 것 같다.
+
+그리고 이제 API 29 버전 이상에서 부터는 MediaStore를 통한 path를 받아오는데 실제로 오는 값을 살펴보면 상당히 이상하다는 것을 확인 할 수 있다.
+일반적인 경로의 형태와 다르다. >>> content://media/external/video/media 처럼 나오는데 이것은 content id라는 형태로 일반적으로 사용하는 File uri 과는 다른 방식이다.
+안드로이드에서는 file uri 과 content uri의 2가지 방법을 활용하기 때문에 상황에 따라 적절히 사용하는 것이 좋다.
+
+추가적인 정보는 어떤 블로그의 댓글로 대체하려 한다.
+
+의견 >> 안드로이드에서 파일의 uri를 공유할 때 file uri와 content uri가 쓰입니다.
+작성자님이 말씀하신 바로 접근가능한 uri는 file uri이고 (file://path/filename)
+id의 형태는 content uri 입니다.(content://authority/id)
+
+안드로이드에서 file uri 사용을 보안적인 이슈로 권장하지 않고 있습니다. (앱 내부 폴더로 바로 접근이 가능해지기 때문. 안드로이드 7.0 이상부터는 내부저장소를 가르키는 file uri는 외부로 공개를 시도하면 에러(or 경고)가 발생할거에요(?))
+
+content uri는 컨텐츠 프로바이더를 통해서 데이터를 가져올 수 있기 때문에, 외부로 공개되는 uri라면 content uri를 이용하셔야 합니다.
+외부로 공유해서 접근할 경우 임시적인 권한을 부여해서 권한을 보유해야만 접근이 가능해집니다.
+
+참고해보시면 좋을 것 같습니다. :)
+
+출처: https://crystalcube.co.kr/184
+
+해결 2. -> 
+https://codechacha.com/ko/android-data-storage/
+https://codechacha.com/ko/android-q-scoped-storage/
+
+로그 찍을 때 사용했던 코드 -> 
+
+val internalPath = context.filesDir
+    val file = File(context.externalCacheDir, "uploadList.txt")
+    
+    Log.d("mainActivity", "path File check ::: path >>> $path")
+    Log.d("mainActivity", "internal path check ::: path >>> $internalPath")
+
+    // android Q 대응
+    val exDir1 = Environment.getExternalStorageDirectory()
+    val exDir2 = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+
+    Log.d("mainActivity", "Environment path check ::: path >>> $exDir1")
+    Log.d("mainActivity", "Environment path check ::: path >>> $exDir2")
+
+    val mediaDirImg = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+    val mediaDirAudio = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+    val mediaDirFile = MediaStore.Files.FileColumns.DATA
+    val mediaDirVideo = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+
+    Log.d("mainActivity", "mediaDir path check ::: path >> $mediaDirImg")
+    Log.d("mainActivity", "mediaDir path check ::: path >> $mediaDirAudio")
+    Log.d("mainActivity", "mediaDir path check ::: path >> $mediaDirVideo")
+    Log.d("mainActivity", "mediaDir path check ::: path >> $mediaDirFile")
