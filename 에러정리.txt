@@ -348,3 +348,10 @@ val internalPath = context.filesDir
     Log.d("mainActivity", "mediaDir path check ::: path >> $mediaDirAudio")
     Log.d("mainActivity", "mediaDir path check ::: path >> $mediaDirVideo")
     Log.d("mainActivity", "mediaDir path check ::: path >> $mediaDirFile")
+
+
+문제 16. 장치 정보를 불러와 저장하는 정보에 넣어 줬으면 함
+해결 -> https://salix97.tistory.com/225
+이 블로그를 보고 정보 취득이 가능했음
+
+문제 17. cpu의 활동정보를 기록해서 스트레스 테스트를 요청 받음
