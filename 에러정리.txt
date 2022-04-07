@@ -355,3 +355,32 @@ val internalPath = context.filesDir
 이 블로그를 보고 정보 취득이 가능했음
 
 문제 17. cpu의 활동정보를 기록해서 스트레스 테스트를 요청 받음
+
+
+문제 18. simple data format 활용하기
+해결 -> https://developer.android.com/reference/java/text/SimpleDateFormat
+여기에 보면 포멧에 대한 정보가 나옴
+"yyyy-MM-dd" 등으로 사용이 가능함
+
+
+문제 19. compose로 system bar, system navigation, system bar navigation 영역 차지 하기
+해결 1. ->
+ 먼저 system bar, navigation 영역을 고정적으로 차지하지 않고 내부의 content가 차지 할 수 있도록 하는 방법
+ class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false) // 이부분
+ ...
+    }
+ }
+
+ 를 실행해주면 된다.
+ 
+해결 2. -> system bar, navigation을 수정하는 방법
+ window를 활용해서 색등을 바꿀 수 있음, 근데 투명하게 해서 보이게 하는 방법을 모르겠음
+ 해결함 -> window.navigationBarColor = 0x00000000 로 주게되면 투명하게 되서 밑에 있는 정보까지 확인이 가능함 argb 형태로 받기 때문에 가능
+
+ 문제 20. 애니메이션의 적용을 살펴봐야함
+ 해결 -> https://developer.android.com/jetpack/compose/animation
+ 공식 사이트 참고
