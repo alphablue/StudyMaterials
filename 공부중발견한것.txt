@@ -1,0 +1,10 @@
+1) compose modifier 에서 onGloballyPositioned 에 대해
+
+modifier = Modifier
+                .padding(20.dp, 40.dp)
+                .onGloballyPositioned {
+                    textCoordinates = it.boundsInParent()
+                }
+                .align(Alignment.BottomStart)
+
+-> 이 속성은 부모속성 보다 더 위로 그림을 그리게 하는 속성으로 보임
