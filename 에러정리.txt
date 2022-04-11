@@ -384,3 +384,15 @@ val internalPath = context.filesDir
  문제 20. 애니메이션의 적용을 살펴봐야함
  해결 -> https://developer.android.com/jetpack/compose/animation
  공식 사이트 참고
+
+ 문제 21. room에서 flow로 반환을 받는 경우 observer가 작동을 안함
+ 해결 -> flow 대신 liveData로 반환받도록 해서 모든 코드의 흐름을 통일시 함
+
+ 문제 22. room에서 초기 값을 가진 컬럼의 데이터만 증가해서 업로드 한 갯수를 세려고 했음 하지만 많은 코드가 필요함
+ 해결 -> 아파치에서 제공하는 random 모듈을 사용해 필요한 길이만큼의 랜덤 스트링을 생성해 이름뒤에 붙임
+
+https://stackoverflow.com/questions/4267475/generating-8-character-only-uuids
+implementation "org.apache.commons:commons-lang3:3.12.0"
+
+ room의 초기값을 사용하지 못하는 이유는 배보다 배꼽이 더 큰 상황이 왔기 때문이다. 초기화를 위한 과정이 꽤 복잡해 노력에 비해 하고자 하는 목표는
+ 중요성이 떨어지기 때문, 하는 과정은 공식 문서에 잘 정리 되어 있음
