@@ -56,3 +56,4 @@ object ProvideAPI {
 
 3) navigation 에서 백스택을 제거하는 방법 (단 하나의 stack만 남기고 싶을 때 사용하면 좋음)
 해결 -> https://stackoverflow.com/questions/66845899/compose-navigation-remove-previous-composable-from-stack-before-navigating
+
