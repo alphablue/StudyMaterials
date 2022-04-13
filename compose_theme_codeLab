@@ -1,0 +1,42 @@
+<< 1 >> 전체 테마 설정
+
+ 테마설정은 크게 시스템 색상설정(color), 글자(type), 모양(shape), 테마(theme)로 나뉜다. 여기서 앞의 3가지인 색, 글자, 모양이라는 각각의 요소를 한군데 모아서
+ theme에 설정을 해준다. theme는 각 요소를 정의하는 가장큰 틀이다.
+
+ 코드랩을 살펴보면 surface로 묶어서 어떠한 객체들을 표현 하는 경우가 있다. 각 객체를 일일이 설정하는 것과 surface를 사용하는 것의 차이는 뭔지 궁금해서 검색해 봤더니 바로나왔다.
+ 해결 -> https://stackoverflow.com/questions/65918835/when-should-i-use-android-jetpack-compose-surface-composable
+
+ 또 재미있는 것은 텍스트의 부분적인 스타일 적용이 비교적 쉽게 가능하다는 것이다.
+ val text = buildAnnotatedString {
+  append("This is some unstyled text\n")
+  withStyle(SpanStyle(color = Color.Red)) {
+    append("Red text\n")
+  }
+  withStyle(SpanStyle(fontSize = 24.sp)) {
+    append("Large text")
+  }
+}
+코드를 보면 buildAnnotatedString 을 사용했고 거기에 상황에 따라 필요한 스타일을 적용 시킬 수 있다.
+
+문제 1. 탭구현을 위해서 TabRow를 써는데 내부 아이템의 크기가 각기 다른 문제가 있음
+해결 -> text()를 사용했었는데 그렇게 하면 안되고 Tab()을 사용해야 한다. 또 TabRow의 modifier에 height를 직접 입력하지말고 fillMaxWidth()로 크기만 준후 Tab()에서 크기를 조정해야한다.
+전체 코드를 살펴보자
+TabRow(selectedTabIndex = 0, modifier = Modifier.fillMaxWidth(), backgroundColor = MaterialTheme.colors.primaryVariant ) {
+            listOf("item1", "item2", "item3").forEachIndexed { idx, text ->
+                Tab(
+                    selected = selectedTabIndex == idx,
+                    onClick = {
+                        selectedTabIndex = idx
+                    },
+                    modifier = Modifier.height(50.dp),
+                    text = {Text(text)},
+                    selectedContentColor = Color.Black,
+                    unselectedContentColor = Color.Gray
+                )
+            }
+        }
+
+참고 링크 -> https://stackoverflow.com/questions/68270720/android-jetpack-compose-white-tabrow?rq=1
+
+문제 2. chip을 xml로 제공해 주는 경우는 있지만 compose에서는 따로 없어서 직접 구현을 해야함 모양만 흉내 내는것은 어렵지 않으나 클릭 이벤트 처리가 어려울 뜻
+해결 -> 
