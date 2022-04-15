@@ -94,5 +94,33 @@ startKoin {
  https://keelim.tistory.com/321 << bind 에대 한 고찰?
 
 
+ >>> day 3 <<<
+
+  문제 1. column 안에 서 내용이 안보이는 문제 이유를 모르겠음
+  해결.... -> 속성을 삽질하고 있었음, row안에 spacer를 썻는데 그 spacer에 height가 fillmaxsize로 설정 되 있어서 화면전체 크기를 잡고 있는 현상이 있던 것 내가 생각하기로는
+  row가 차지하고 있는 영역에만 가질 것이라 생각했지만 그렇지 않고 화면 전체를 가지는 현상이 있는 것임
+  
+  column{
+    Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            UiDatas.homeBodyChips.forEachIndexed { idx, text ->
+                Spacer(
+                    modifier = Modifier
+                        .width(4.dp)
+                        .fillMaxHeight()  // 이부분이 문제임
+                )
+                CustomChip(selected = idx == 1, text = text)
+                Spacer(
+                    modifier = Modifier
+                        .width(4.dp)
+                        .fillMaxHeight() // 이부분이 문제
+                )
+            }
+        }
+    원하는 정보들 ... 
+}
+
+
 
 
