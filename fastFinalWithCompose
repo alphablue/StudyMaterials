@@ -122,5 +122,12 @@ startKoin {
 }
 
 
+>>> day 4 <<<
 
+문제 1. compose에서 권한 설정을 하려 보니 denied 일때 snack bar를 띄우고 싶은데 composable 함수가 아니라서 할 수 없는 상황
+해결(이라 생각했던것) -> 권한 요청을 따로 하고 denied 일때 state가 상황을 받아서 변화된 상황에 따라 composable 함수에서 snack bar를 띄우도록 함
+
+
+문제 2. snack bar를 사용할 때 버튼을 클릭하면 버튼 이벤트가 작동하고 스넥바는 사라지도록 하고 싶은데 dismiss가 안됨
+해결X -> 방법을 못찾겠음
 
