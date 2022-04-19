@@ -131,3 +131,40 @@ startKoin {
 문제 2. snack bar를 사용할 때 버튼을 클릭하면 버튼 이벤트가 작동하고 스넥바는 사라지도록 하고 싶은데 dismiss가 안됨
 해결X -> 방법을 못찾겠음
 
+>>> day 5 <<<
+
+문제 1. compose 에서 제공하는 hiltViewModel()을 사용하니 by viewmodel()을 사용하던 것 처럼 Singleton으로 받아오지 않음
+그래서 하나는 네비게이션으로, 다른 하나는 activity에서 실행하려니 동일 객체가 아니라서 obeserver한 작동을 못함
+
+해결 -> activity에서 viewmodel을 주입하고 그 객체를 navigation host에게 직접적으로 넘겨주면 activity 단에서도 충분히 사용이 가능함
+참고해볼것? 되는지 확인안해봄 -> https://code.luasoftware.com/tutorials/android/jetpack-compose-navigation-pass-arguments/
+
+문제 2. 버튼의 경우 surface의 정보가 사용되지 않음 배경색을 넣어줄려고 할때 지정해서 넣어줘야함
+해결 -> https://stackoverflow.com/questions/64376333/background-color-on-button-in-jetpack-compose 를 보고 해결함
+
+문제 3. TabRow에 indicator를 넣고싶은데 제공해주는 정보를 활용 할 줄 모름
+해결 -> https://proandroiddev.com/how-to-use-tabs-in-jetpack-compose-41491be61c39
+위에서 조금 바뀐 부분들이 있는데 코드에서 처럼 TabRowDefaults를 사용해 줘야 한다.
+TabRow(
+            selectedTabIndex = 0,
+            modifier = Modifier
+                .padding(0.dp)
+                .fillMaxWidth()
+                .height(48.dp),
+            backgroundColor = MaterialTheme.colors.primaryVariant,
+            indicator = { tabPositions ->
+                TabRowDefaults.Indicator(
+                    Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
+                    color = MaterialTheme.colors.onSecondary
+                )
+            },
+        )
+
+문제 4. 구글 맵을 활용해 reverse geo 를 해줘야함
+해결 -> 따로 구글 api를 설정 할 필요없이 Geocoder() 객체를 활용하면 됨
+
+세부 문제 1) 다만 주소 정보에 대해 업데이트가 잘 안되는 관계로 최신 정보로 사용되지 않음
+실 주소는 세종... 인데 검색 결과는 충청남도 ... 처럼 잡혀 변경된 사항을 충분히 반영하지 못하는 문제가 있음
+
+구글 맵을 사용해 보는 것이 가치가 있을지 국내 서비스를 사용하는게 가치가 있을지 찾아봐야 할 뜻
+시도 -> naver map 정보는 rest API로 reverse geocode가 가능하다. REST API 에 대해 공부할 겸 네이버 지도를 사용 해 보자.

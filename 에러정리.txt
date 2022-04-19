@@ -396,3 +396,7 @@ implementation "org.apache.commons:commons-lang3:3.12.0"
 
  room의 초기값을 사용하지 못하는 이유는 배보다 배꼽이 더 큰 상황이 왔기 때문이다. 초기화를 위한 과정이 꽤 복잡해 노력에 비해 하고자 하는 목표는
  중요성이 떨어지기 때문, 하는 과정은 공식 문서에 잘 정리 되어 있음
+
+ 문제 23. 파일의 크기 구하기
+ 해결 -> https://stackoverflow.com/questions/10202805/how-do-i-get-file-size-of-temp-file-in-android
+ File 객체는 기본적으로 byte의 크기를 제공해 준다. File.length() 메서드가 그 기능을 나타냄
