@@ -168,3 +168,12 @@ TabRow(
 
 구글 맵을 사용해 보는 것이 가치가 있을지 국내 서비스를 사용하는게 가치가 있을지 찾아봐야 할 뜻
 시도 -> naver map 정보는 rest API로 reverse geocode가 가능하다. REST API 에 대해 공부할 겸 네이버 지도를 사용 해 보자.
+
+>>> day 6 <<<
+
+문제 1. retrofit의 통신을 위한 기본은 완성했으나 , 문자가 (%2c)같은 형태로 나오는 문제가 있음
+해결 -> @Query() 등 retrofit에서 제공하는 annotation에 encoded 속성을 준다.
+
+문제 2. retrofit의 headers가 제대로 작동안하는 것 같음
+참고자료 -> https://jhkimmm.tistory.com/m/16
+해결 -> @header("X-NCP-APIGW-API-KEY-ID: 아이디")에서 : 사이에 띄어 쓰기가 있으면 안된다. 없애니깐 됨
