@@ -177,3 +177,8 @@ TabRow(
 문제 2. retrofit의 headers가 제대로 작동안하는 것 같음
 참고자료 -> https://jhkimmm.tistory.com/m/16
 해결 -> @header("X-NCP-APIGW-API-KEY-ID: 아이디")에서 : 사이에 띄어 쓰기가 있으면 안된다. 없애니깐 됨
+
+>>> day 7 <<<
+
+문제 1. naver map sdk의 의존성을 추가하다보니 support-7v 라이브러리를 추가해줘야함
+해결 -> gradle.properties(project Properties) 에 android.enableJetifier=true 를 추가해 주면 된다.
