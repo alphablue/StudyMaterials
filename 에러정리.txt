@@ -400,3 +400,34 @@ implementation "org.apache.commons:commons-lang3:3.12.0"
  문제 23. 파일의 크기 구하기
  해결 -> https://stackoverflow.com/questions/10202805/how-do-i-get-file-size-of-temp-file-in-android
  File 객체는 기본적으로 byte의 크기를 제공해 준다. File.length() 메서드가 그 기능을 나타냄
+
+ 문제 24. 네이게이션 정리
+ 
+class NavigationActions(navController: NavHostController) {
+    val navigationToHome: () -> Unit = {
+        navController.navigate(NaviDestinations.HOME_ROUTE) {
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
+    val navigationToCamera: () -> Unit = {
+        navController.navigate(NaviDestinations.CAMERA_ROUTE) {
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
+    val navigationToMap: () -> Unit = {
+        navController.navigate(NaviDestinations.GOOGLE_MAP_ROUTE)
+    }
+}
+
+이걸 사용하는 것과 @compose 에서 지원하는 navHost의 차이는?
