@@ -182,3 +182,25 @@ TabRow(
 
 문제 1. naver map sdk의 의존성을 추가하다보니 support-7v 라이브러리를 추가해줘야함
 해결 -> gradle.properties(project Properties) 에 android.enableJetifier=true 를 추가해 주면 된다.
+
+문제 2. 네이버에서 주변 정보를 받아오려 하니 5개의 갯수 제한이 있어 처리가 많은 정보를 받사용 할 방법이 떠오르지 않음
+해결 -> 강의에서 사용한 것 처럼 tmap 을 이용하려 한다.
+세부 문제1. ) 그런데 또 그대로 사용하려 보니 모델의 형태가 이해가 안됨, data class 로 따로 분리하고 그걸 다시 리스트에 
+뿌리는 형태로 사용하는데 그전에 데이터를 받았던 모델을 재정의 하는 것 같아서 왜 그렇게 설계 하고 사용하는지 의문임
+그리고 pacelize의 의미를 정확하게 모르겠음 왜 이걸 사용하는 걸까?
+
+세부 문제 참고자료 -> 
+https://medium.com/kenneth-android/kotlin-serializable%EC%99%80-parcelable-%EC%B0%A8%EC%9D%B4-%EA%B7%B8%EB%A6%AC%EA%B3%A0-kotlin-pacelize-f78dc6c3a208
+https://woovictory.github.io/2019/01/03/Android-What-is-serialization/
+https://www.charlezz.com/?p=44613
+https://bladecoder.medium.com/a-study-of-the-parcelize-feature-from-kotlin-android-extensions-59a5adcd5909
+https://kotlinworld.com/44
+
+그리고 조금 특이한 참고자료
+https://pluu.github.io/blog/android/2022/02/04/compose-pending-argument-part-2/
+
+세부문제 해결? -> 일단 serialize를 사용하는 것은 activity간 또는 fragment와 데이터를 주고 받을 때 필요한 클래스 타입을 넘기기 위한 작업이라는 것을 알았다.
+하지만 내가 구현하고 있는 앱의 형태는 공통의 저장 공간이 존재하면서 activity는 하나이고 fragment는 따로 존재하지 않는 형태이기 때문에 굳이 사용할 필요는 없을 것 같다는 판단이 섰다.
+따라서 @parcelize를 따로 사용하지 않고 데이터의 흐름을 구현 하도록 해 보자.
+
+고민) 만약에 navigation에서 deeplink로 넘겨주거나 외부에서 intent를 통해서 넘겨주는 정보가 있을 경우에는 @parcelize를 사용하는 serialize 기법을 사용할 필요가 있다고 생각한다.
