@@ -204,3 +204,13 @@ https://pluu.github.io/blog/android/2022/02/04/compose-pending-argument-part-2/
 따라서 @parcelize를 따로 사용하지 않고 데이터의 흐름을 구현 하도록 해 보자.
 
 고민) 만약에 navigation에서 deeplink로 넘겨주거나 외부에서 intent를 통해서 넘겨주는 정보가 있을 경우에는 @parcelize를 사용하는 serialize 기법을 사용할 필요가 있다고 생각한다.
+
+네이버 api 참고 자료들
+-> naver map android doc ) https://navermaps.github.io/android-map-sdk/guide-ko/1.html
+-> naver ncloud api doc ) https://api.ncloud-docs.com/docs
+
+문제 3. 네이버의 지도를 받아오려고 보니 fragment로 설계되어 있기 때문에 compose에서 fragment를 받아서 그릴 수 있도록 수정 할 필요가 있음
+그런데 fragmentManager를 사용해야 되는데 MainActivity는 구현이 ComponentActivity로 되어 있어 그 외 많은것이 구현된 AppCompatActivity로 변경하니
+onCreate에서 setContentView를 해줘야되는 문제가 발생.
+
+시도 1) AndroidViewBinding 라이브러리를 활용해봄 xml를 만들고 바로 inflate해서 보여주는 방식으로 되는지 확인 해봄
