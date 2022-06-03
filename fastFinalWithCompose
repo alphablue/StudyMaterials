@@ -218,3 +218,5 @@ onCreate에서 setContentView를 해줘야되는 문제가 발생.
 >>> day 8 <<<
 
 tip 1) android room 에서 Pair<T,T>형들을 entity로 사용하기위해서는 typeConvert를 해주어야 한다.
+
+변경사항 테스트
