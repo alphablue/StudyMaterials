@@ -214,3 +214,7 @@ https://pluu.github.io/blog/android/2022/02/04/compose-pending-argument-part-2/
 onCreate에서 setContentView를 해줘야되는 문제가 발생.
 
 시도 1) AndroidViewBinding 라이브러리를 활용해봄 xml를 만들고 바로 inflate해서 보여주는 방식으로 되는지 확인 해봄
+
+>>> day 8 <<<
+
+tip 1) android room 에서 Pair<T,T>형들을 entity로 사용하기위해서는 typeConvert를 해주어야 한다.
