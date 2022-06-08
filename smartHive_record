@@ -5,3 +5,12 @@
 1. theme 설정에 대해서 자료를 만들어 볼 필요가 있음 현재 사용하는 방식은 xml로 사용하고 있고 앞으로는 material theme로 변경할 예정임
 하지만 예전 방식의 이해를 토대로 변경해 가야하기 때문에 xml 방식에서 theme 설정을 정리해둘 필요가 있음 (tistory에 정리할 것)
 
+2. 리사이클러 뷰 이해하기
+
+참고 링크
+
+https://ppizil.tistory.com/38
+https://velog.io/@seokzoo/RecyclerView-listAdapter%EB%A5%BC-%ED%86%B5%ED%95%9C-DiffUtil-%EC%82%AC%EC%9A%A9%EB%B2%95
+https://velog.io/@haero_kim/Android-DiffUtil-%EC%82%AC%EC%9A%A9%EB%B2%95-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0
+https://blog.kmshack.kr/RecyclerView-DiffUtil%EB%A1%9C-%EC%84%B1%EB%8A%A5-%ED%96%A5%EC%83%81%ED%95%98%EA%B8%B0/
+
