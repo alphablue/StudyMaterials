@@ -1,0 +1,21 @@
+
+2022. 6. 8
+
+1. 여러개의 textfield의 데이터 입력후 확인을 누르면 다음의 textfield로 이동시키는 기능을 만들고 싶음 소프트 키보드에서
+뜨는 확인 버튼 등을 IME(input method option)으로 변경 할 수 있다.
+
+해결 -> https://stackoverflow.com/questions/64947249/jetpack-compose-setting-imeaction-does-not-close-or-change-focus-for-the-keyboa
+
+FocusRequester와 LocalSoftwareKeyboardController 를 이용했음
+
+2. 이메일과 비밀번호 입력시 입력양식에 맞는지 체크하는 과정추가
+
+3. textfield 에서 소프트키보드로 backspace 를 꾹 눌렀을 때 기대하는 모두 지우기가 없음 x 버튼이나 꾹 눌렀을 떄 차례대로 지워지는 기능이 필요할 뜻
+
+시도1. -> x 버튼을 사용하도록 함, x 버튼은 trailingIcon의 옵션을 활용해서 입력했음
+문제. 1-1 ->  x 버튼을 누르면 focus 가 textfield 에 가지 않고 벗어나는 문제가 있음 x 버튼을 누른 textfield 에 포커스가 갔으면 좋겠음
+해결. 1-1 -> FocusRequester 를 local 하게 생성해서 focus의 이동을 분리 시켰다. 이미지를 눌렀을 때는 로컬의 request를 사용하도록 하고 imeaction을 사용할 때는
+상위에서 정의한 request를 사용하도록 설정했음
+
+도움은 아니지만 참고한 자료 -> https://stackoverflow.com/questions/69143424/how-can-sync-focuse-on-outlinedtextfield-with-use-trailingicon-android-jetpa
+
