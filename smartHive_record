@@ -79,3 +79,19 @@ https://deque.tistory.com/139
 
 3. glide 살펴볼 것
 http://dktfrmaster.blogspot.com/2016/09/glide.html
+
+
+2022. 6. 13 월
+
+1. mvvm 설계를 위해서 레트로핏에서 데이터를 받아오는 작업을 구상함 그런데 coroutine 작업을 위해 고민을 하는 도중 여러 정보가
+섞여서 어떤 방식이 좋은 방식인지 알기 어려움
+
+참고자료 -> 
+https://leveloper.tistory.com/213
+https://developer.android.com/topic/libraries/architecture/coroutines?hl=ko
+https://gift123.tistory.com/60
+
+>> retrofit의 작동원리
+https://proandroiddev.com/how-does-retrofit-work-6ecad1bb683b
+
+
