@@ -14,3 +14,68 @@ https://velog.io/@seokzoo/RecyclerView-listAdapter%EB%A5%BC-%ED%86%B5%ED%95%9C-D
 https://velog.io/@haero_kim/Android-DiffUtil-%EC%82%AC%EC%9A%A9%EB%B2%95-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0
 https://blog.kmshack.kr/RecyclerView-DiffUtil%EB%A1%9C-%EC%84%B1%EB%8A%A5-%ED%96%A5%EC%83%81%ED%95%98%EA%B8%B0/
 
+*** diffutil 을 사용한 예제 ***
+class PlayListAdapter(private val callback: (MusicModel) -> Unit) : ListAdapter<MusicModel, PlayListAdapter.ViewHolder>(diffUtil) {
+
+    inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+
+        fun bind(item: MusicModel) {
+
+            val trackTextView = view.findViewById<TextView>(R.id.itemTrackTextView)
+            val artistTextView = view.findViewById<TextView>(R.id.itemArtistTextView)
+            val coverImageView = view.findViewById<ImageView>(R.id.itemCoverImageView)
+
+            trackTextView.text = item.track
+            artistTextView.text = item.artist
+
+            Glide.with(coverImageView.context)
+                .load(item.coverUrl)
+                .into(coverImageView)
+
+            if (item.isPlaying) {
+                itemView.setBackgroundColor(Color.GRAY)
+            } else {
+                itemView.setBackgroundColor(Color.TRANSPARENT)
+            }
+
+            itemView.setOnClickListener {
+                callback(item)
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_music, parent, false))
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        currentList[position].also { musicModel ->
+            holder.bind(musicModel)
+        }
+    }
+
+    companion object {
+        val diffUtil = object : DiffUtil.ItemCallback<MusicModel>() {
+            override fun areItemsTheSame(oldItem: MusicModel, newItem: MusicModel): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: MusicModel, newItem: MusicModel): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
+}
+
+
+2022. 6. 10 금
+
+1. glide의 사용법이 잘 나와 있는 블로그
+http://dktfrmaster.blogspot.com/2016/09/glide.html
+
+
+2. diffutil에 대한 추가적인 정보
+https://deque.tistory.com/139
+
+3. glide 살펴볼 것
+http://dktfrmaster.blogspot.com/2016/09/glide.html
