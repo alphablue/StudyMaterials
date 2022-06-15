@@ -110,3 +110,23 @@ https://dev-repository.tistory.com/105
 https://medium.com/@kamilbekar/how-to-use-sealed-class-in-kotlin-f186c30a21e2
 https://medium.com/swlh/kotlin-sealed-class-for-success-and-error-handling-d3054bef0d4e
 https://fernandocejas.com/2018/05/07/architecting-android-reloaded/
+
+2022. 6. 15 수
+
+문제 1. viewModel 에서 Dispatcher 를 외부에서 주입받고 상황에 따라 사용 할 수 있도록 하는게 목표
+해결 -> https://leveloper.tistory.com/213
+의 블로그를 보고 따라 했다. 확실히 큰 도움이 되는 듯
+
+
+
+살펴볼 내용
+
+https://www.geeksforgeeks.org/how-to-handle-api-responses-success-error-in-android/
+https://heeeju4lov.tistory.com/34
+https://dev-repository.tistory.com/105
+https://medium.com/@kamilbekar/how-to-use-sealed-class-in-kotlin-f186c30a21e2
+https://medium.com/swlh/kotlin-sealed-class-for-success-and-error-handling-d3054bef0d4e
+https://fernandocejas.com/2018/05/07/architecting-android-reloaded/
+https://uchun.dev/runCatching%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-kotlin%EC%97%90%EC%84%9C-exception%EC%B2%98%EB%A6%AC-%EB%B0%A9%EB%B2%95/
+https://blog.logrocket.com/guide-using-sealed-classes-kotlin/
+https://toss.tech/article/kotlin-result
