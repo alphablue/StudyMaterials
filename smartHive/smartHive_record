@@ -130,3 +130,19 @@ https://fernandocejas.com/2018/05/07/architecting-android-reloaded/
 https://uchun.dev/runCatching%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-kotlin%EC%97%90%EC%84%9C-exception%EC%B2%98%EB%A6%AC-%EB%B0%A9%EB%B2%95/
 https://blog.logrocket.com/guide-using-sealed-classes-kotlin/
 https://toss.tech/article/kotlin-result
+
+
+2022. 6. 17 금
+
+작업중 1. -> activity 와 fragment를 jetpack 지원 라이브러리로 마이그레이션중
+
+문제 1. -> activity 에서 fragment 들의 이동을 위해서 navigation 라이브러리를 사용하려 하니 구조가 얽혀 있는 부분들이 많아
+전부다 수정해야 되는 문제가 있음
+
+세부 과정 1. -> 비지니스 로직에 맞춰 splash 먼저 수정하려 했음
+sdk 31이상 버전에 맞춰 새로운 방식의 splash screen 등록 방법이 만들어 졌으나 adapter icon 의 적용이 필요한 관계로
+미루고 navigation의 이동부터 교체하도록 변경 시작
+
+세부 과정 2. -> nav graph를 그리고 home fragment 까지 나오도록 할 것
+ 문제1) 에러 발생
+ 
