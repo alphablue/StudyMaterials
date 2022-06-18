@@ -1,0 +1,53 @@
+2022 6. 18
+
+1) 세팅
+
+웹의 css 를 빠르게 확인 할 수 있는 툴
+-> https://chrome.google.com/webstore/detail/web-developer/bfbameneiokkgbdmiekhjnmfkcnldhhm
+
+웹 css를 빠르게 계층 구조확인 가능 한 툴
+-> https://chrome.google.com/webstore/detail/headingsmap/flbjommegcjonpdmenkdiocclhjacmbi
+
+접근성에 대한 내용을 확인 할 수 있는 툴 (crome)
+-> https://chrome.google.com/webstore/detail/tota11y-plugin-from-khan/oedofneiplgibimfkccchnimiadcmhpe
+
+켜져있는 웹에서 전체적인 디자인의 레이아웃을 빠르게 살펴볼 수 있는 툴 (visbug)
+-> https://chrome.google.com/webstore/detail/visbug/cdockenadnadldjbbgcallicgledbeoc
+
+nvm 세팅)
+  ) git bash 에서 아래의 명령어를 입력해서 nvm 설치 해 주기
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash 
+  ) git bash 에서 touch ~/.bash_profile 로 배쉬 프로파일을 만들기
+  ) vim 을 이용해서 파일 정보 수정 vi ~/.bash_profile
+  ) https://github.com/nvm-sh/nvm 여기서 export 구문 따라 입력 저장하기 
+    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+  입력후 esc -> : -> wq 를 입력해 저장후 종료
+  ) git bash를 재시작해 nvm -h 를 입력해 잘 설치 됐는지 확인
+  ) nvm install 16.15.1 과 같이 필요한 버전 설치
+  ) core editor를 설정해주기 위해서 git config --global core.editor "code --wait"를 입력해주기
+  ) 이제 원하는 디렉토리에 가서 code . 을 입력하면 vscode가 열림
+  ) https://github.com/seulbinim/Intro/blob/master/README/cli.md << 선생님 깃 정보임 여기서 CLI를 확인하자
+
+
+git 복습)
+
+  ) 마지막 commit의 메세지를 수정하고 싶을 때 git commit -amend 를 입력해주면 수정 가능
+   단 이때는 core editor를 설정 해 줬을 때 편리하게 사용 가능
+  ) git reflog 를 사용하면 메세지의 변경도 로그를 확인 가능
+  ) 등록된 원격 저장소 주소를 확인하는 명령어 git remote -v 아무것도 없다면 등록을 위한 명령어를 사용 하면됨
+    git remote add origin 주소  의 형식을 사용하면됨 origin 은 별칭이므로 원한다면 다른 이름을 사용 할 수 있음
+
+    origin  https://github.com/alphablue/git-study.git (fetch)
+    origin  https://github.com/alphablue/git-study.git (push) 
+
+    위의 로그에서 origin이 별칭이다. 만약 다른 주소를 등록 하고 싶다면 별칭을 다르게 해서 등록이 가능하다.
+
+    별칭  https://github.com/alphablue/git-study.git (fetch)
+    별칭  https://github.com/alphablue/git-study.git (push)
+
+    처럼 등록해서 이 레포지토리의 remote 주소를 별칭 이라는 애가 기억 하고 있는 것이다.
+    이후에 remote에서 push 하고 싶을 때
+    git push 별칭 -u master 을 통해서 각 별칭이 저장하고 있는 주소로 push 할 수 있다.
+
+  ) 
