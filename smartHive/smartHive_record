@@ -146,3 +146,20 @@ sdk 31이상 버전에 맞춰 새로운 방식의 splash screen 등록 방법이
 세부 과정 2. -> nav graph를 그리고 home fragment 까지 나오도록 할 것
  문제1) 에러 발생
  
+
+2022. 6. 20 월
+
+문제1. navigation 설정을 위해서 activity xml에 fragmentcontainer를 사용하고 있는데 navController를 받아오는 방법을 모름
+해결 -> https://stackoverflow.com/questions/58703451/fragmentcontainerview-as-navhostfragment
+
+val navHostFragment = supportFragmentManager
+    .findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
+val navController = navHostFragment.navController
+
+이렇게 불러오면됨
+
+세부 문제1. -> NullPointerException null cannot be cast to non-null type androidx.navigation.fragment.NavHostFragment 이 뜨면서 실행이 안되는 문제
+해결 -> activity 에서 실행할 적에 setContentView 가 먼저 시행되고 이후에 불러와야 했음
+
+세부 문제2. -> 순서는 옳바른데 실행이 안될 경우 (바텀 네비게이션바 를 사용하는 경우)
+해결 -> menu item 들의 id와 nav graph 에 있는 fragment 들의 id 가 동일 한지를 확인해 보자 다르다면 위와 동일한 에러가 발생할 수 있음
