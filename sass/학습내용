@@ -50,4 +50,44 @@ git 복습)
     이후에 remote에서 push 하고 싶을 때
     git push 별칭 -u master 을 통해서 각 별칭이 저장하고 있는 주소로 push 할 수 있다.
 
-  ) 
+
+2022. 6. 25
+
+1. npm 설치시 명령어 이해 
+npm i -D sass live-server npm-run-all
+
+-> -D 의 의미는 --save-dev 의 약자로 쓰인 것 이다. 개발 환경에서만 사용 한다는 의미 배포할 때는 쓰지
+않는 다는 의미
+
+2. sass script의 의미
+
+ "scripts": {
+    "start": "run-p watch dev",
+    "build": "sass scss:css",
+    "nomap": "npm run build -- --no-source-map --style=compressed",
+    "watch": "npm run build -- --watch",
+    "dev": "live-server --port=8090"
+
+  }
+
+  1) build => scss 폴더의 파일을 css로 sass 컴파일 한다는 의미 로 (npm run build) 명령을 사용해서 작동가능
+   이런 방법을 사용하는 이유는 일일이 상황에 따른 명령어를 치는 것이 불편하기 때문
+
+
+3. sass 에서 file 구분
+.filename 은 sass에서 컴파일 하지 말라는 의미임 
+
+4. sass 에서 import
+@import "./normalize"; _normalize.scss 파일을 import 하는 경우 _와 .scss 가 생략됨 
+@import "./base";
+
+5. sass 에서 use
+@use "sass:math" as *;
+
+내장 함수인 math를 사용하겠다는 의미 as * 는 math.~~ 를 타이핑 하기보다 바로 math 라이브러리의 함수들을
+사용 할 수 있음
+
+예 => math.div() -> div() 만 바로 사용가능
+
+6. sass 에서 mixin 이란
+ 함수와 비슷하게 생겼지만 내부 내용을 그대로 넘겨주는 것임
