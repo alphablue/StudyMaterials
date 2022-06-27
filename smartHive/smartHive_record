@@ -163,3 +163,53 @@ val navController = navHostFragment.navController
 
 세부 문제2. -> 순서는 옳바른데 실행이 안될 경우 (바텀 네비게이션바 를 사용하는 경우)
 해결 -> menu item 들의 id와 nav graph 에 있는 fragment 들의 id 가 동일 한지를 확인해 보자 다르다면 위와 동일한 에러가 발생할 수 있음
+
+
+문제2. navigation 의 이동에서 상황에 따라 activity 안의 view 의 visible 를 변경할 필요가 있음
+해결 -> https://stackoverflow.com/questions/54087740/how-to-hide-bottomnavigationview-on-android-navigation-lib
+
+navController.addOnDestinationChangedListener { _, destination, _ ->
+        when (destination.id) {
+            R.id.mainFragment -> showBottomNav()
+            R.id.mineFragment -> showBottomNav()
+            else -> hideBottomNav()
+        }
+    }
+
+의 내용을 토대로 destination 에 따라 변경하다록 수정함
+
+
+참고할 자료
+https://medium.com/androiddevelopers/multiple-back-stacks-b714d974f134
+https://stackoverflow.com/questions/58262507/how-to-manage-bottomnavigationview-backstack-in-android-navigation-component
+
+
+2022. 6. 27 월
+
+1. safe argument 사용하는 방법
+
+구글 공식 문서에서는 
+val action = SpecifyAmountFragmentDirections.confirmationAction(amount)
+v.findNavController().navigate(action)
+
+이렇게 안내하는게 전부 이다. 여기서 문제는 SpecifyAmountFragmentDirections 이 부분이 뭘 의미하느냐 인데 이건 action을 호출한 fragment 나 activity 에서 destination이라는
+접미사가 붙은 클래스가 자동으로 생성된 것을 말한다. 참고한 블로그에서 내용을 발췌한 것을 살펴보자
+
+ action이 시작된 각 destionation에 대해 클래스가 생성됩니다. 이 클래스의 이름은 "Directions"라는 
+ 단어가 추가된 destionation의 이름입니다.  예를 들어, 발신 대상이 SpecifyAmountFragment라는 프래그먼트인 
+ 경우 생성된 클래스는 SpecifyAmountFragmentDirections 이다.
+ >> 참조 : https://hik-coding.tistory.com/148
+
+세부 문제 1)
+여기서 또 다른 문제가 있는데 바로 arraylist의 형태를 바로 보낼 수 없다는 것이다. safeagument 에서는 array 만 받도록 되어 있기 때문에 발신자 측에서는
+arraylist.toTypedArray() 를 불러줘야 한다.
+
+수신측 에서는 받은 데이터를 safeargumentArray.toList() 로 변환해서 사용해야한다.
+
+참조 : https://stackoverflow.com/questions/62145014/passing-arraylist-as-argument-in-safeargs
+
+세부 문제 2)
+safeargument 에서 다양한 타입을 주고 싶다면 parcelize 를 한 객체나 타입을 넘겨줘야 한다. 
+
+
+2. imageview 에 clipToOutLine 을 사용했는데 어떤 의미인지 모르겠음
