@@ -1,0 +1,29 @@
+백 스택을 변경하는 작업은 새 대상을 스택 맨 위로 푸시하거나 스택에서 최상위 대상을 팝하여 항상 스택 맨 위에서 작동합니다. 대상으로 이동하면 해당 대상이 스택 맨 위에 푸시됩니다.
+
+navigation의 기본 구성요소
+
+* Navigation Graph
+-> xml 리소스가 포함된 것
+
+* NavHost
+-> xml 의 fragmentContainer 에서는 navHostFragment 가 구현되어 있고 그것을 활용해 navHost를 얻을 수 있다.
+이건 그래프의 목적지를 표시하는 빈 컨테이너이다.
+
+xml 에서의 구현
+
+<androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment" // 이 부분이 navHostFragment 를 구현한 것
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
+
+
+* NavController
+-> 앱 내에 이동(탐색)을 관리하는 개체
