@@ -230,3 +230,19 @@ srcCompat 은 vector 이미지를 그리는데 최적의 방법을 제공한다�
 srcCompat 는 특별한 조작 없이 벡터를 그대로 그려 준다는 장점을 가진다.
 
 복습 1) hilt 에서 fragment 로 이동하기 위해서는 @androidEntryPoint 를 설정해 주어야 한다.
+
+2022. 7. 8.
+
+조사1) 위치작업을 백그라운드에서도 계속해서 리프레쉬 하도록 하고 싶음
+
+세부문제1) google service 에서 제공하는 위치 업데이트를 활용하려 보니 몇가지 deprecated 된 사항들이 있음을 발견했다.
+
+1) https://developers.google.com/android/reference/com/google/android/gms/location/LocationRequest 에서 볼 수 있듯이 
+fusedLocationClient.getCurrentLocation() 에서 첫번째 인자인 우선순위가 LocationRequest 클래스에 있는 값이 아닌 Priority 클래스 안에 지정된 값을 사용 해야 한다.
+
+fusedLocationClient 를 사용하는 방법에 대한 것
+ https://stackoverflow.com/questions/72159435/how-to-get-location-using-fusedlocationclient-getcurrentlocation-method-in-kot
+
+작동하는 방법을 알려준 블로그
+https://duzi077.tistory.com/263
+
