@@ -91,3 +91,14 @@ npm i -D sass live-server npm-run-all
 
 6. sass 에서 mixin 이란
  함수와 비슷하게 생겼지만 내부 내용을 그대로 넘겨주는 것임
+
+
+ 22. 07. 02 토
+
+ 1) github pages 서비스는 웹 배포를 무료로 해주는 것임
+
+ 원하는 repository 에서 setting -> side menu 에서 pages 들어가기 
+
+ -> 원하는 디렉토리를 정하고 save
+ -> 다시 레포지토리에 돌아와서 about 란에서 setting 을 클릭
+ -> website 란에 pages 에서 세팅한 url을 적용하기
