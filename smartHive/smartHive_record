@@ -213,3 +213,20 @@ safeargument 에서 다양한 타입을 주고 싶다면 parcelize 를 한 객�
 
 
 2. imageview 에 clipToOutLine 을 사용했는데 어떤 의미인지 모르겠음
+
+
+2022. 6. 28
+
+문제 1. bottom navigation 을 사용하려 할 때 값을 넘겨주고 싶은데 setupWithNavController 을 사용하면 조작이 불가능함
+        이건 backstack 문제하고 같이 엮이는 것 같음
+
+접근1)
+ 먼저 bottomnavigationview 에 setOnClickListener 를 조작하기로 함, 클릭마다 아이템의 정보를 확인 할 수 있기 때문에 navController 에서 action과 이동을 같이 할 수 있을 것으로 기대함
+
+2022. 7. 6.
+
+발견 1) imageview 에서 src 대신에 srcCompat 을 사용하는데 차이를 몰라서 살펴봤다.
+srcCompat 은 vector 이미지를 그리는데 최적의 방법을 제공한다고 한다. 일반적인 src 를 사용할 경우 디바이스의 화면 크기에 맞는 많은 *.png 를 생성해 성능에 좋지않지만
+srcCompat 는 특별한 조작 없이 벡터를 그대로 그려 준다는 장점을 가진다.
+
+복습 1) hilt 에서 fragment 로 이동하기 위해서는 @androidEntryPoint 를 설정해 주어야 한다.
