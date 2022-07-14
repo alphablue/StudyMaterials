@@ -259,3 +259,21 @@ allproject 블록 안에 들어가던 내용 들은 setting.gradle 에 작성되
 -> 
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.1'
 를 추가 해줘야지만 잘 작동함
+
+2022. 7. 14.
+
+팁 1) firebase에서는 모델을 설정할 때 default 값을 설정 해줘야 된다. 아니면 Null 설정이 필요함
+객체를 설정할 떄 주의 하기
+
+팁 2) data class 모델을 생성할 때 파이버 베이스를 활용한다면 @ServerTimeStamp 라는 어노테이션을 잘 활용 하자
+이건 자동으로 타임 스템프를 찍어주는 역할을 한다.
+
+팁 3) recyclerview 에서 overscollmodel="never" 옵션을 넣어주면 스크롤시 끝났음을 보여주지 않음
+
+팁 4) firesotre 에서 2가지 이상의 조합으로 결과를 도출 할 때 composit index (복합인덱스) 가 필요하다.
+일반적인 방법이랑 다르니 새로운 인덱스를 추가해 줄 필요가 있음
+
+확인 해볼 것 1) material design 의 하나인 TextInputEditText 에 다양한 속성이 있음 에러처리/ 카운트 처리를 편리하게 사용 가능
+-> https://android-dev.tistory.com/44
+
+
