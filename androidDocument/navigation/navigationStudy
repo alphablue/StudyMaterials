@@ -112,3 +112,98 @@ fun sendOrder() {
     }
 
 위 코드를 살펴보면 intent 를 만들고 intent 를 받을 수 있는 모든 앱에 대해서 메세지를 전송 할 수 있도록 함
+
+
+LetterListFragment
+
+>> 이 프로젝트에서 알게된 정보
+
+1) fragment 에서 viewbinding 을 사용 할 때 주의 할 점. 
+
+private var _binding: ResultProfileBinding? = null
+// This property is only valid between onCreateView and
+// onDestroyView.
+private val binding get() = _binding!!
+
+override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+): View? {
+    _binding = ResultProfileBinding.inflate(inflater, container, false)
+    val view = binding.root
+    return view
+}
+
+override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null
+}
+
+위 코드는 구글 공식 문서에서 권장하는 방식이다. fragment 에서 위에처럼 특별한 방식으로 사용 하는 이유는 메모리 누수의 위험성이 있기 때문이다.
+명확한 설명은 할 수 없지만 lateinit var 을 사용하기 보다는 fragment 에서는 위처럼 사용 하도록 하자
+
+참고할 링크
+https://yoon-dailylife.tistory.com/57
+https://stackoverflow.com/questions/70065804/why-not-use-lateinit-modifier-in-andrioid-fragment-view-binding
+
+
+2) fragment 에서 menu 를 코드상에서 적용 할 수도 있다. 그 방법으로 onCreateOptionsMenu 함수를 오버라이드 해서 사용하면된다.
+여기서 사용된 코드를 살펴보자
+
+override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
+        // res/menu 에 있는 xml 파일을 불러온 것
+        inflater.inflate(R.menu.layout_menu, menu)
+
+        // 버튼을 등록 한 것
+        val layoutButton = menu.findItem(R.id.action_switch_layout)
+        setIcon(layoutButton)
+    }
+
+그리고 설정한 옵션의 클릭 이벤트를 작동시키기 위해서
+
+override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_switch_layout -> {
+                // Sets isLinearLayoutManager (a Boolean) to the opposite value
+                isLinearLayoutManager = !isLinearLayoutManager
+                // Sets layout and icon
+                
+                // inner fun 처럼 보이게 코드를 넣은것 이 함수를 호출해 변경 시킨다.
+                private fun chooseLayout() {
+                        if (isLinearLayoutManager) {
+                        recyclerView.layoutManager = LinearLayoutManager(context)
+                        } else {
+                        recyclerView.layoutManager = GridLayoutManager(context, 4)
+                        }
+                        recyclerView.adapter = LetterAdapter()
+                }
+
+                // setIcon(item)
+
+                private fun setIcon(menuItem: MenuItem?) {
+                        if (menuItem == null)
+                        return
+
+                        menuItem.icon =
+                        if (isLinearLayoutManager)
+                                ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_grid_layout)
+                        else ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_linear_layout)
+                }
+
+                return true
+            }
+            // Otherwise, do nothing and use the core event handling
+
+            // when clauses require that all possible paths be accounted for explicitly,
+            // for instance both the true and false cases if the value is a Boolean,
+            // or an else to catch all unhandled cases.
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+위와 같은 코드를 작성해서 활용 하면 된다.
+
+3) object 의 표현방식과 class 안에서 companion object 를 만드는 것에 대한 차이가 궁금해서 찾아 봤다.
+-> https://stackoverflow.com/questions/43814616/kotlin-difference-between-object-and-companion-object-in-a-class
