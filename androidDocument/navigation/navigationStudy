@@ -231,3 +231,43 @@ private fun goMenuFragment(@IdRes menuId: Int) {
         navController.navigate(menuId, null, backStackOption)
         menuLocator = menuId
     }
+
+2022. 7. 20
+
+1) android editTextView 에서 TextWatcher 를 사용하는 경우 각 함수의 호출 방식 을 살펴볼 필요가 있음
+
+> https://velog.io/@dongchyeon/%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C-EditText%EC%97%90-%EA%B0%92%EC%9D%B4-%EC%9E%88%EC%9D%84-%EB%95%8C%EB%A7%8C-%EB%B2%84%ED%8A%BC-%ED%99%9C%EC%84%B1%ED%99%94%ED%95%98%EA%B8%B0
+
+참고 유튜브 > https://www.youtube.com/watch?v=IxhIa3eZxz8
+
+2) 휴대폰 번호를 - 가 붙은 형태로 변형하기
+
+참고함
+> https://stackoverflow.com/questions/72437053/how-to-format-string-to-phone-number-kotlin-alghorithm
+
+> https://betterprogramming.pub/10-useful-kotlin-string-extensions-46772b653f71
+
+3) TextInputLayout 를 사용 할 때 지원 해주는 style 도 적용이 가능함
+style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+과 같이 속성으로 넣어주면 활용 가능
+
+이때 문서에 내용을 살펴보면 자동 완성 기능도 적용이 가능한 것으로 보임
+https://developer.android.com/reference/android/widget/AutoCompleteTextView
+
+스타일링 참고
+https://medium.com/omisoft/textinputlayout-styling-8b36a5e0d73c
+
+4) editTextView 에서 space 를 못받도록 하는 방법
+private val inputFilterNoSpace =
+        InputFilter { source, start, end, dest, dstart, dend ->
+            if(source.isBlank())
+                return@InputFilter ""
+            else return@InputFilter source
+        }
+
+필터를 만들어주고
+editInputName.filters = arrayOf(inputFilterNoSpace)
+필터를 적용 시켜 주면 된다.
+
+이게 작동하는 이유는 스페이스를 넣었을 때는 문자열이 분리되어 새로운 문자열로 인식하기 때문에 기존의 문자와
+연결되지 않고 source 쪽에 넘어 오기때문이다.
