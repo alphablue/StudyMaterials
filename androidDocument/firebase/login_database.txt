@@ -1,0 +1,30 @@
+2022. 7. 28.
+
+기본적으로 세팅되는 파이어 베이스의 그레이들 설정
+
+
+app/build.gradle
+
+    // Google
+    implementation 'com.google.android.gms:play-services-auth:20.2.0'
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:30.3.1')
+    implementation 'com.google.firebase:firebase-database-ktx'
+    implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+
+    // Firebase UI
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.1'
+    implementation 'com.firebaseui:firebase-ui-database:8.0.1'
+
+
+build.gradle
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.2'
+
+        // The google-services plugin is required to parse the google-services.json file
+        classpath 'com.google.gms:google-services:4.3.5'
+    }
+
