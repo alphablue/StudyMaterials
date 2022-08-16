@@ -277,3 +277,27 @@ c
 1) 백준 1260
 https://youjourney.github.io/archivers/BOJ1260
 
+
+
+2022. 8. 16
+
+문제 1. 네비게이션의 이동시에 정보를 넘겨 주고싶음, 큰 데이터가 아니라서 viewmodel 을 사용 하는 대신에 이동시에 넘기고 싶음
+
+해결) 
+composable(
+            "result/{tt}",
+            arguments = listOf(navArgument("tt") { type = NavType.FloatType})
+        ) {
+            val testArg = it.arguments?.getFloat("tt")
+
+            Log.d("test", "$testArg")
+
+            testArg?.let {
+                ResultView(result = testArg.toDouble())
+            }
+        }
+
+위의 코드에 나타난 것 처럼 type 을 지정해 주고 정보를 받아 왔음
+
+참고한 자료
+https://stackoverflow.com/questions/69059149/how-pass-parcelable-argument-with-new-version-of-compose-navigation
