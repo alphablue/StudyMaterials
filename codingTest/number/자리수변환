@@ -1,0 +1,46 @@
+
+~~^ 
+    소수점 자리수 자르기
+---
+
+double, float 등 소수점 자리를 원하는 자리만큼 자르기를 원할 때 사용하는 방법
+
+1) roundToInt()
+
+import kotlin.math.roundToInt
+ 
+fun main() {
+    val random = 0.8458215996440445
+ 
+    val roundoff = (random * 100.0).roundToInt() / 100.0
+ 
+    println(roundoff)        // 0.85
+}
+
+
+2) DecimalFormat.format()
+
+import java.math.RoundingMode
+import java.text.DecimalFormat
+ 
+fun main() {
+    val random = 8435.21057752090819915
+ 
+    val df = DecimalFormat("#.##")
+    df.roundingMode = RoundingMode.DOWN
+    val roundoff = df.format(random)
+    println(roundoff)        // 8435.21
+}
+
+3) String.format()
+
+fun main() {
+    val random = 295.335
+    val roundoff = String.format("%.2f", random)
+    println(roundoff)        // 295.34
+}
+
+
+~~^
+
+---
