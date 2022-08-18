@@ -1,0 +1,22 @@
+문제 1.
+-> 구글 맵 적용을 위한 api 설정하기
+
+meta-data 를 입력해야 하는데 매니패스트의 기본적인 설정을 모름
+
+참고할 수 있을만한 자료를 찾음
+-> https://blog.naver.com/horajjan/110190139846
+
+문제 2. 
+> 안드로이드 스튜디오에서 sha-1, sha-256 정보 가져오기
+
+해결 (공식문서참고)
+-> https://developers.google.com/android/guides/client-auth?hl=ko#using_keytool
+
+
+문제 3.
+-> 구글 맵 API 설정하기
+
+해결 (공식문서)
+-> https://developers.google.com/maps/documentation/android-sdk/map-with-marker
+
+여기에 설명 된 대로 api 유출 방지를 위한 플러그인 설치후 local.properties 에 api 를 등록하고 사용함
