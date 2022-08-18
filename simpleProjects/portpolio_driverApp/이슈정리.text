@@ -20,3 +20,8 @@ meta-data 를 입력해야 하는데 매니패스트의 기본적인 설정을 �
 -> https://developers.google.com/maps/documentation/android-sdk/map-with-marker
 
 여기에 설명 된 대로 api 유출 방지를 위한 플러그인 설치후 local.properties 에 api 를 등록하고 사용함
+
+문제 4.
+-> 구글 맵에서 현재 위치 정보 받아오기
+
+참고 -> https://www.appsloveworld.com/kotlin/100/51/get-current-location-button-is-not-show-on-the-jetpack-compose-google-map
