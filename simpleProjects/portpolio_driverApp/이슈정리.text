@@ -25,3 +25,42 @@ meta-data 를 입력해야 하는데 매니패스트의 기본적인 설정을 �
 -> 구글 맵에서 현재 위치 정보 받아오기
 
 참고 -> https://www.appsloveworld.com/kotlin/100/51/get-current-location-button-is-not-show-on-the-jetpack-compose-google-map
+
+
+정리 1. 안드로이드 구글 맵 옵션 정리
+
+GoogleMap )
+
+ 1. onMyLocationButtonClick
+  구글에서 제공하는 내위치 버튼을 클릭 했을 때 이벤트를 받아서 작업 할 수 있도록 만들어진 옵션이다.
+  생각에는 이 버튼 대신에 내 위치를 기본적인 방법을 토대로 커스텀 된 내 위치 가져오기 버튼을 이용 할 수 있을 것 같기도함
+  rememberCameraPositionState 의 정보를 갱신시키면 지도상에서 이동이 가능 하기 때문에 활용이 가능 할 뜻
+
+ 2. onMyLocationClick
+  이건 지도에 내 위치를 표시하고 있는 동그란 모양을 클릭 했을 때 발생하는 이벤트를 잡도록 만들어진 
+  옵션이다.
+
+ 3. onMapClick
+  지도의 특정 부분을 누르면 위도, 경도가 반환됨
+
+ 4. properties
+  지도에서 보여줄 속성들을 정의 할 수 있음 MapProperties 객체를 활용함
+
+ 5. uiSettings
+  지도에서 제공하는 기본적인 ui 들 (줌 버튼, 내위치 버튼 등)의 사용 여부를 결정할 수 있도록 하는
+  속성 MapUiSettings 객체를 활용함
+
+
+Marker )
+ 
+  1. state ( required )
+   필수 값으로 들어가야 하는 것으로 MarkerState 객체를 받음 마커가 표현될 위치를 정하는 것
+
+  2. title
+   핀을 눌렀을 때 infoWindowAnchor 상단에 보여주는 굵은 글씨의 제목
+
+  3. snippet
+   핀을 눌렀을 때 infoWindowAnchor title 밑에 보여주는 세부 내용
+ 
+  4. infoWindowAnchor
+   핀을 눌렀을 때 보여주는 화면의 위치를 변경하는 옵션
