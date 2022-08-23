@@ -64,3 +64,32 @@ Marker )
  
   4. infoWindowAnchor
    핀을 눌렀을 때 보여주는 화면의 위치를 변경하는 옵션
+
+
+문제 5.
+-> compose 에서 activity 가져오기, 권한 설정을 할 때 activity 를 사용해서 작업 할 필요가 있는데 compose 에서는 바로 가져오는 방법이 없음
+
+fun Context.findActivity(): Activity {
+    var context = this
+
+    while (context is ContextWrapper) {
+        if (context is Activity) return context
+
+        context = context.baseContext
+    }
+
+    throw IllegalStateException("no activity")
+}
+
+
+참고
+-> https://sungbin.land/jetpack-compose-%EC%97%90%EC%84%9C-%EC%95%A1%ED%8B%B0%EB%B9%84%ED%8B%B0%EB%A5%BC-%EA%B0%80%EC%A0%B8%EC%98%A4%EB%8A%94-%EC%B5%9C%EC%84%A0%EC%9D%98-%EB%B0%A9%EB%B2%95%EB%93%A4-a806f746713b
+
+문제 6.
+-> compose 에서 lifecycle 을 인식해 작업 해야 하는 과정이 있는데 compose 자체로는 지원 하는 것이 없고 약간의 코드 수정이 필요함
+
+참고
+-> https://stackoverflow.com/questions/66546962/jetpack-compose-how-do-i-refresh-a-screen-when-app-returns-to-foreground
+
+여기서 보듯이 확장 함수를 활용해 필요에 따라 사용 하도록 하면 좋을 것 같음
+
