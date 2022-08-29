@@ -128,3 +128,8 @@ fun getFilterList: Call<FilterResponse>(
 );
 
 인터페이스는 위처럼 해줘야 할 필요가 있다. ? 다음은 query 로 처리하고 /다음의 값들은 path 로 처리해야 한다.
+
+참고 자료)
+->
+https://stackoverflow.com/questions/37698501/retrofit-2-path-vs-query
+https://stackoverflow.com/questions/47260789/query-parameter-in-retrofit-with-in-android-google-maps
