@@ -115,3 +115,16 @@ fun Context.findActivity(): Activity {
 
  방법은 아직 못찾음
 
+문제 9.
+-> 레트로핏의 주소 설정에서 path 와 query 의 구분을 못해 계속 오류를 냈음
+
+해결)
+-> 먼저 url 이 다음과 같다고 했을 때, www.app.net/api/searchtypes/{Path}/filters?Type={Query}&SearchText={Query}
+@GET("/api/searchtypes/{Id}/filters")
+fun getFilterList: Call<FilterResponse>(
+          @Path("Id") customerId: Long,
+          @Query("Type") responseType: String ,
+          @Query("SearchText") searchText: String
+);
+
+인터페이스는 위처럼 해줘야 할 필요가 있다. ? 다음은 query 로 처리하고 /다음의 값들은 path 로 처리해야 한다.
