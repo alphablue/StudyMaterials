@@ -133,3 +133,55 @@ fun getFilterList: Call<FilterResponse>(
 ->
 https://stackoverflow.com/questions/37698501/retrofit-2-path-vs-query
 https://stackoverflow.com/questions/47260789/query-parameter-in-retrofit-with-in-android-google-maps
+
+
+문제 10.
+-> 지도상에서 가운데 포인터를 두고 이동시에 그 좌표값을 가져오고 싶음
+
+해결)
+-> rememberCameraPositionState 의 값을 활용 하면 이동할때마다 좌표의 값을 가져 올 수 있다.
+참조)
+-> https://towardsdev.com/jetpack-compose-google-map-camera-movement-listener-erselan-khan-5a9d1b223548
+
+코드)
+val cameraPositionState = rememberCameraPositionState {
+        position = if (myLocation != null) {
+            CameraPosition.fromLatLngZoom(
+                LatLng(myLocation!!.latitude, myLocation!!.longitude),
+                10f
+            )
+        } else {
+            CameraPosition.fromLatLngZoom(seoul, 10f)
+        }
+    }
+googleMap(){
+Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.Center),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                IconButton(onClick = { }) {
+                    Image(
+                        imageVector = Icons.Outlined.FilterTiltShift,
+                        contentDescription = "mapCenterMarker"
+                    )
+                }
+
+                // 카메라가 이동 할 시에 중앙 좌표 값을 가져오는 부분
+                Text(
+                    text = "Camera Moving : ${cameraPositionState.isMoving}" +
+                            "\n Lat and lng : ${cameraPositionState.position.target.latitude}, ${cameraPositionState.position.target.longitude}",
+                    textAlign = TextAlign.Center,
+                    fontSize = 20.sp
+                )
+            }
+}
+  
+문제 11.
+-> kotlin 에서 get() 을 따로 쓰는 이유는 무엇일까?
+
+참조)
+-> https://stackoverflow.com/questions/37906607/getters-and-setters-in-kotlin
+
