@@ -185,3 +185,40 @@ Column(
 참조)
 -> https://stackoverflow.com/questions/37906607/getters-and-setters-in-kotlin
 
+
+문제 12.
+-> compose bottomNavigationBar 가 시스템 버튼에 가려서 안보이는 문제가 있음 padding 을 주어 임의로 보이게 했지만 이유를 모르겠음
+
+해결)
+-> 기본적인 시스템의 값을 계산하는 함수를 제공 해 주는데 이것을 활용해 bottomNavigationBar 가 시스템 버튼에 가려서 안보이는 것을 해결 할
+수 있다.
+
+val paddingValues = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+
+BottomNavigation(
+        modifier = Modifier.padding(bottom = paddingValues),
+    ) {
+        ...
+    }
+
+
+문제 13.
+-> 구글 맵 api 를 통해서 POI 데이터를 받으려 했으나 제한이 있음
+
+https://developers.google.com/maps/documentation/places/web-service/autocomplete
+
+여기서 나타난 것을 보면 요청 url 을 아래처럼 사용 해야 되는데
+https://maps.googleapis.com/maps/api/place/autocomplete/json?input=cafe&location=37.5666805,126.9784147&radius=50&types=cafe&language=ko&key={APPKEY}
+
+input 에 들어가야 하는 부분이 필수이고 여기서 쓰인 텍스트가 포함된 가게 이름들만 보여 주며 최대 5개 까지의 검색만 보여주기 때문에 원하는 정보를 취득 하기 어려운 문제가 있음
+때문에 다른 정보 취득 방법을 고민 해 봐야 할 것 같음
+
+대체 방법)
+-> tmap 의 api 를 사용 하도록 하자. tmap 에서는 poi 데이터를 쉽게 제공 해 주기 때문에 활용하기 좋음
+
+참고 -> https://tmapapi.sktelecom.com/main.html#webservice/docs/tmapPoiAroundSearch
+위의 링크에 들어가서 
+예시로 https://apis.openapi.sk.com/tmap/pois/search/around?version=1&page=1&count=30&categories=카페&centerLon=126.9784147&centerLat=37.5666805&radius=1&reqCoordType=WGS84GEO&resCoordType=WGS84GEO&appKey={APPKEY}
+처럼 만드니 사용이 가능했음
+
+디테일한 조건을 맞춰서 정보를 불러 올 수 있었는데 활용하면 좋을 뜻 함(개수 등)
