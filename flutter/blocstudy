@@ -1,0 +1,34 @@
+문제 1.
+-> firebase 연결을 위해 cli 를 설치했지만 flutterfire 명령어를 인식 하지 못함
+
+해결)
+-> 공식 문서에 나와 있는 부분을 확인해 활용 했음
+
+https://firebase.google.com/docs/cli
+https://firebase.flutter.dev/docs/cli/
+
+
+문제 2.
+-> Di 를 사용하여 싱글턴 객체를 사용 하는 방법
+
+해결)
+-> pubspec.yaml 에서 dev_dependencies: 목록에 get: 을 추가해주고 제공하는 함수를 활용 하면된다.
+
+DataUploader controller = Get.put(DataUploader()) 처럼 Get 클래스에서 함수를 제공해 주고 있다.
+
+문제 3.
+-> CLI 에서 firebase dependencies 추가하기
+
+https://firebase.google.com/docs/flutter/setup?hl=ko&platform=ios
+
+에서 확인 하듯이
+터미널에서
+flutter pub add {파이어베이스제공 플러그인} 를 하면 된다.
+
+문제 4.
+-> 안드로이드의 mainfest 설정이 문제가되어 multidex 에러를 냄, firestore 를 쓰려고 보니 min sdk 를 19 이상을 요구해 바꿨더니 문제가 됨
+
+해결)
+-> 최소 sdk 버전을 19 이상으로 할 경우 multidex 를 따로 설정해줘야 하는데 23 이상으로 설정할 경우 자동으로 설정해 주기 때문에 sdk를 23 이상
+으로 설정 했음
+현재도 보통 min sdk 가 23 이상이기 때문에 크게 문제되지 않는 부분이라 생각됨
