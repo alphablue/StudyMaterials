@@ -218,7 +218,7 @@ input 에 들어가야 하는 부분이 필수이고 여기서 쓰인 텍스트�
 
 참고 -> https://tmapapi.sktelecom.com/main.html#webservice/docs/tmapPoiAroundSearch
 위의 링크에 들어가서 
-예시로 https://apis.openapi.sk.com/tmap/pois/search/around?version=1&page=1&count=30&categories=카페&centerLon=126.9784147&centerLat=37.5666805&radius=1&reqCoordType=WGS84GEO&resCoordType=WGS84GEO&appKey={APPKEY}
+예시로 url로 https://apis.openapi.sk.com/tmap/pois/search/around?version=1&page=1&count=30&categories=카페&centerLon=126.9784147&centerLat=37.5666805&radius=1&reqCoordType=WGS84GEO&resCoordType=WGS84GEO&appKey={APPKEY}
 처럼 만드니 사용이 가능했음
 
 디테일한 조건을 맞춰서 정보를 불러 올 수 있었는데 활용하면 좋을 뜻 함(개수 등)
