@@ -71,3 +71,28 @@ class DataUploader extends GetxController {
 -> https://stackoverflow.com/questions/72895721/firebasecloudmessaging-platformexception-platformexceptionnull-error-host-p
 
 위의 링크에 나온데로 각 gradle 에 googleservice 와 firebase 종속성을 추가 해 주었다.
+
+
+문법 1.
+-> (_) => 의 문법은 어떤 의미를 가진 거지?
+
+문법 2.
+-> class AppIcons {
+  AppIcons._();
+
+  static const fontFam = 'AppIcons';
+  static const IconData trophyOutLine = IconData(0xe808, fontFamily: fontFam);
+  static const IconData menuLeft = IconData(0xe805, fontFamily: fontFam);
+  static const IconData peace = IconData(0xe806, fontFamily: fontFam);
+}
+
+에서 ._() 은 클래스 생성에서 무슨 의미 일까?
+
+문법 3.
+-> child??Text(title, style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: onSurfaceTextColor
+          ),
+
+child 는 null 허용 프로퍼티 인데 ?? 를 가지고 null 확인을 하는 것 같다. 정확히 무슨 활용 법이지?
+

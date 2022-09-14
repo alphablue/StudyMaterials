@@ -222,3 +222,13 @@ input 에 들어가야 하는 부분이 필수이고 여기서 쓰인 텍스트�
 처럼 만드니 사용이 가능했음
 
 디테일한 조건을 맞춰서 정보를 불러 올 수 있었는데 활용하면 좋을 뜻 함(개수 등)
+
+tmap 모델활용, Response Parameter 에 맞춰 필요한 걸 사용해야됨)
+구 주소
+-> upperAddrName + middleAddrName + lowerAddrName + firstNo + secondNo
+ 형식 -> 서울 중구 무교동 25 - 1
+
+신 주소 (도로주소)
+-> roadName + buildingNo1 + buildingNo2
+ 형식 -> 세종대로 20길 23
+
