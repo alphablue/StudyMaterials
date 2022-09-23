@@ -1,0 +1,31 @@
+개요
+-> 앱에서 기본앱 이나 외부 앱을 활용 하기위해서는 intent 를 활용해야 하는 경우가 있는데 워낙 다양한 intent 들이 있으니
+각 intent 옵션별 작동을 기록 하려 함
+
+activity.startActivity(intent) 로 실행하면됨
+
+기본 전화)
+->
+Intent(Intent.ACTION_DIAL, Uri.parse("tel:010-1343-4646")) 전화 번호가 입력된 화면으로 이동함
+Intent(Intent.ACTION_CALL_BUTTON, Uri.parse("tel:100-1131-4564")) 입력된 전화번호로 바로 전화가 됨
+--> 이 경우에는 permission 을 설정 해줘야된다.
+<uses-permission android:name="android.permission.CALL_PHONE"/> 를 요구하며 체크도 필요함, 가능하면 ACTION_DIAL 를 쓰는게
+좋아보인다.
+
+
+공유 기능)
+->
+val intent = Intent(Intent.ACTION_SEND).apply {
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_SUBJECT, "소제목")
+                        putExtra(Intent.EXTRA_TEXT, "주요내용")
+                    }
+
+val sendIntent = Intent.createChooser(intent, "제목")
+activity.startActivity(sendIntent)
+::=> 공유 기능을 활용하기 위해 쓰는 것이다. 소제목은 본문을 시작 하기 전에 제목으로 나오는 부분이고 본문 내용은 주요 텍스트들이
+나오는 것이다. 
+제목 부분은 공유할 앱을 선택할 때 나오는 제목임 공유되는 텍스트에는 포함되지 않음
+
+참고)
+-> https://negoguma.tistory.com/13

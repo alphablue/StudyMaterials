@@ -243,3 +243,14 @@ tmap 모델활용, Response Parameter 에 맞춰 필요한 걸 사용해야됨)
 설명은 조사가 필요함
 // TODO
  suspend 와 side effect 의 관계를 알아보기
+
+
+ 문제 16.
+ -> navigation 을 사용하다 보면 데이터를 넘겨줘야 하는 경우가 있다. 이때 parcelize 된 객체를 넘겨주는 방법이 있는데 type 이 any 인
+ 경우는 에러가 발생한다.
+
+ 해결)
+ -> @RawValue 를 type 이 any 인 프로퍼티에 추가 해주면 정상적으로 작동 된다.
+
+ 참고
+ -> https://zerodice0.tistory.com/127

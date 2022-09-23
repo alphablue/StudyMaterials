@@ -28,3 +28,48 @@ build.gradle
         classpath 'com.google.gms:google-services:4.3.5'
     }
 
+
+2022. 9. 23.
+
+문제)
+-> 파이어 베이스의 storage 와 store 를 같이 사용할 때 storage 에 먼저 이미지와 같은 데이터를 저장하고
+store 의 객체에 파이어 베이스 path 를 설정 해 줘야할 필요성이 있다. 그런데 path 를 설정 하는 방법을 모름
+
+해결)
+-> addOnSuccessListener 를 적극적으로 활용해야 한다. 
+코드가 길어지니 부분적으로 나눠서 확인 해보려 함
+
+step 1)
+-> 먼저 파이어 베이스의 인스턴스를 생성하자
+val fireStorageInstance = Firebase.storage
+val fireStoreInstance = Firebase.firestore
+
+step 2)
+-> storage 는 reference 를 기준으로 위치를 기억하고 접근 할 수 있으며 store 는 collection 과 document 로 구분되어
+접근한다.
+store 에서 collect 은 여러 데이터들을 담을 수 있는 집합체 이고 document 는 하나의 데이터만 넣을 수 있는 가장 작은
+단위이다. 따라서 여러 데이터를 넣고 싶다면 document 에 collect 을 정의하고 collect 내에 여러 document 를 만들어야 한다.
+
+step 3)
+-> storage 에 데이터를 먼저 저장하고 store 를 사용하자, 콜백함수를 활용 해야 한다.
+
+val ref = fireStorageInstance
+        .reference
+        .child("db")
+
+ref.putFile(it)
+    .continueWithTask { task ->
+        if (!task.isSuccessful) {
+            task.exception?.let { e->
+                throw e
+            }
+        }
+        ref.downloadUrl
+    }
+    .addOnCompleteListener { task ->
+        if (task.isSuccessful) {
+            task.result // 여기가 firestorage 에 저장된 path 를 넘겨주는 부분이다.
+        }
+    }
+
+파이어 베이스의 문서에도 잘 정리가 되어 있으니 참고하면 좋음
