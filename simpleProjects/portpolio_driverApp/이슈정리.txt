@@ -254,3 +254,41 @@ tmap 모델활용, Response Parameter 에 맞춰 필요한 걸 사용해야됨)
 
  참고
  -> https://zerodice0.tistory.com/127
+
+
+ 문제 17.
+  구글로그인 구현하기
+
+-> 생각보다 시간이 많이걸리는 작업이였다. 자료가 부족하고 실행할 때 오류도 많이 났기 때문에 기록하려 함
+먼저 구글 로그인과 firebase 에서 제공하는 auth 를 구현하는 것은 조금 다르다. 때문에 코드 자체도 따로 구분해서 작업해야하는데 살펴보자
+
+1) google cloud 에서 oauth2.0 클라이언트를 생성해야 한다. 그런데 앱을 개발한다고 해서 안드로이드 앱 용 클라이언트를 생성하는 것이 아닌
+웹용 클라이언트를 생성해야 한다. 그래야 정상적인 작동을 하며 심지어 파이어베이스 빌드 가이드에도 그렇게 명시가 되어 있다.
+
+참고 
+-> https://firebase.google.com/docs/auth/android/google-signin?hl=ko&authuser=0
+https://console.cloud.google.com/apis/credentials?authuser=0&hl=ko&project=demostudy
+
+2) 객체를 생성하자
+-> firebase auth 객체를 생성해 필요에 맞게 잘 활용하는 게 중요하다.
+
+onTap 방식과 고전적인 아이디 클릭 방식이 존재 하는 것으로 생각되는데 자료 조사와 결과물이 더 필요함
+
+참고)
+->
+https://uware.com.br/login-no-goolge-usando-jetpack-compose/ 
+https://stackoverflow.com/questions/70850989/one-tap-sign-in-activity-result-with-jetpack-compose
+
+https://billcorea.tistory.com/140
+
+고전적인 방식)
+-> 
+https://developers.google.com/identity/sign-in/android
+
+// 살펴볼 자료
+https://stackoverflow.com/questions/40057798/firebase-token-authentication-error
+https://stackoverflow.com/questions/48937992/how-to-logout-of-google-sign-in
+https://android-developers.googleblog.com/2017/11/moving-past-googleapiclient_21.html
+https://developers.google.com/android/reference/com/google/android/gms/common/api/GoogleApi.html
+https://berkbach.com/firebase-authentication-google-%EB%A1%9C%EA%B7%B8%EC%9D%B8-66dfba07f928
+
