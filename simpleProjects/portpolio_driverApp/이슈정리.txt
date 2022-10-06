@@ -312,6 +312,17 @@ startnavigate 지정된 부분을 백스택에 넣은 다음에 이동을 시켜
 
 tip) 알림을 클릭했다면 없어지도록 하고 싶을때 옵션으로 setAutoCancel 를 true 로 주면 된다.
 
+문제 19.
+-> compose 에서 clipboard(클릭보드) 사용하기
+
+해결
+-> compose 에서는 클립보드를 지원해 주는데 LocalClipboardManager.current 를 사용하면 된다.
+쉽게 클립 보드에 저장과 사용이 가능함
+
+참조
+-> https://stackoverflow.com/questions/71985840/how-to-use-clipboard-service-in-jetpack-compose
+
+
 ----------- 미해결 -----------
 문제
 -> lazy column 에서 아이템 리스트가 표출되는데 가장 상단 부터 로딩 되는 것이 아닌 랜덤으로 로딩 되 사용자가 불편함,
