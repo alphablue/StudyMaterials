@@ -243,3 +243,7 @@ tmap 모델활용, Response Parameter 에 맞춰 필요한 걸 사용해야됨)
 설명은 조사가 필요함
 // TODO
  suspend 와 side effect 의 관계를 알아보기
+
+
+문제 16.
+-> 파이어베이스 storage 에서 이미지를 url 을 받아 coil 로 로딩을 하고 싶은데 http 로 받아야지만 가능하다고함
