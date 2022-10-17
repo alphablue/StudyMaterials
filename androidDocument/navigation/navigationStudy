@@ -301,3 +301,16 @@ composable(
 
 참고한 자료
 https://stackoverflow.com/questions/69059149/how-pass-parcelable-argument-with-new-version-of-compose-navigation
+
+2022. 9. 21
+
+문제 2.
+-> 네비게이션을 활용하다 보니 커스텀 데이터 클래스를 넘겨 줘야 하는 경우가 있었다. 하지만 parcelable 를 이용해야 하고 생각보다 쉽지 않은
+작업이여서 공유하는 viewModel 을 활용 하기로했음
+
+깊은 이해를 위해 참고하면 좋을 자료
+-> 
+https://medium.com/google-developer-experts/modular-navigation-with-jetpack-compose-fda9f6b2bef7
+https://proandroiddev.com/safe-compose-arguments-an-improved-way-to-navigate-in-jetpack-compose-95c84722eec2
+https://proandroiddev.com/the-state-of-navigation-in-jetpack-compose-cc13eb6ac3d9
+

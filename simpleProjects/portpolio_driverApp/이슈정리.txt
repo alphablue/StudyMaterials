@@ -245,5 +245,85 @@ tmap 모델활용, Response Parameter 에 맞춰 필요한 걸 사용해야됨)
  suspend 와 side effect 의 관계를 알아보기
 
 
-문제 16.
--> 파이어베이스 storage 에서 이미지를 url 을 받아 coil 로 로딩을 하고 싶은데 http 로 받아야지만 가능하다고함
+ 문제 16.
+ -> navigation 을 사용하다 보면 데이터를 넘겨줘야 하는 경우가 있다. 이때 parcelize 된 객체를 넘겨주는 방법이 있는데 type 이 any 인
+ 경우는 에러가 발생한다.
+
+ 해결)
+ -> @RawValue 를 type 이 any 인 프로퍼티에 추가 해주면 정상적으로 작동 된다.
+
+ 참고
+ -> https://zerodice0.tistory.com/127
+
+
+ 문제 17.
+  구글로그인 구현하기
+
+-> 생각보다 시간이 많이걸리는 작업이였다. 자료가 부족하고 실행할 때 오류도 많이 났기 때문에 기록하려 함
+먼저 구글 로그인과 firebase 에서 제공하는 auth 를 구현하는 것은 조금 다르다. 때문에 코드 자체도 따로 구분해서 작업해야하는데 살펴보자
+
+1) google cloud 에서 oauth2.0 클라이언트를 생성해야 한다. 그런데 앱을 개발한다고 해서 안드로이드 앱 용 클라이언트를 생성하는 것이 아닌
+웹용 클라이언트를 생성해야 한다. 그래야 정상적인 작동을 하며 심지어 파이어베이스 빌드 가이드에도 그렇게 명시가 되어 있다.
+
+참고 
+-> https://firebase.google.com/docs/auth/android/google-signin?hl=ko&authuser=0
+https://console.cloud.google.com/apis/credentials?authuser=0&hl=ko&project=demostudy
+
+2) 객체를 생성하자
+-> firebase auth 객체를 생성해 필요에 맞게 잘 활용하는 게 중요하다.
+
+onTap 방식과 고전적인 아이디 클릭 방식이 존재 하는 것으로 생각되는데 자료 조사와 결과물이 더 필요함
+
+참고)
+->
+https://uware.com.br/login-no-goolge-usando-jetpack-compose/ 
+https://stackoverflow.com/questions/70850989/one-tap-sign-in-activity-result-with-jetpack-compose
+
+https://billcorea.tistory.com/140
+
+고전적인 방식)
+-> 
+https://developers.google.com/identity/sign-in/android
+
+// 살펴볼 자료
+https://stackoverflow.com/questions/40057798/firebase-token-authentication-error
+https://stackoverflow.com/questions/48937992/how-to-logout-of-google-sign-in
+https://android-developers.googleblog.com/2017/11/moving-past-googleapiclient_21.html
+https://developers.google.com/android/reference/com/google/android/gms/common/api/GoogleApi.html
+https://berkbach.com/firebase-authentication-google-%EB%A1%9C%EA%B7%B8%EC%9D%B8-66dfba07f928
+
+
+문제 18.
+-> 알림에서 알림을 클릭했을 때 앱의 특정 목록으로 이동 했으면 좋겠음 딥 링크를 활용 해야 함
+
+해결)
+-> 정확한 원리는 모르지만 작동하는 방법을 찾아서 적용 했음
+
+https://stackoverflow.com/questions/72316892/navigating-to-a-composable-using-a-deeplink-with-jetpack-compose
+
+여기에 제시된 것 처럼
+
+1. 매니패스트에 먼저 필터를 추가 하고
+2. 네비게이션에서 링크를 걸어 주고
+3. 알람에 intent 를 추가해 실행 할 수 있도록 작업 했음
+-> 구글에서 제안하는 방법으로 TaskStackBuilder 를 사용하는데 내 생각에는 이 빌더가 네비게이션에서
+startnavigate 지정된 부분을 백스택에 넣은 다음에 이동을 시켜주는 것 같다. 그래서 자동으로 백 버튼을 누르면
+홈으로 이동 시켜주는 것으로 보인다.
+
+tip) 알림을 클릭했다면 없어지도록 하고 싶을때 옵션으로 setAutoCancel 를 true 로 주면 된다.
+
+문제 19.
+-> compose 에서 clipboard(클릭보드) 사용하기
+
+해결
+-> compose 에서는 클립보드를 지원해 주는데 LocalClipboardManager.current 를 사용하면 된다.
+쉽게 클립 보드에 저장과 사용이 가능함
+
+참조
+-> https://stackoverflow.com/questions/71985840/how-to-use-clipboard-service-in-jetpack-compose
+
+
+----------- 미해결 -----------
+문제
+-> lazy column 에서 아이템 리스트가 표출되는데 가장 상단 부터 로딩 되는 것이 아닌 랜덤으로 로딩 되 사용자가 불편함,
+-> 각 아이템을 클릭해서 이동하는데 로딩되는데 시간이 오래 걸림 통신과 별개로 다음 화면을 그리는게 먼저 되야 할 것 같음
