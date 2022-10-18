@@ -294,7 +294,7 @@ https://berkbach.com/firebase-authentication-google-%EB%A1%9C%EA%B7%B8%EC%9D%B8-
 
 
 문제 18.
--> 알림에서 알림을 클릭했을 때 앱의 특정 목록으로 이동 했으면 좋겠음 딥 링크를 활용 해야 함
+-> 알림에서 알림을 클릭했을 때 앱의 특정 목록으로 이동 했으면 좋겠음 딥 링크(deeplink)를 활용 해야 함
 
 해결)
 -> 정확한 원리는 모르지만 작동하는 방법을 찾아서 적용 했음
@@ -311,6 +311,15 @@ startnavigate 지정된 부분을 백스택에 넣은 다음에 이동을 시켜
 홈으로 이동 시켜주는 것으로 보인다.
 
 tip) 알림을 클릭했다면 없어지도록 하고 싶을때 옵션으로 setAutoCancel 를 true 로 주면 된다.
+
+추가 참고 자료)
+-> 
+https://stackoverflow.com/questions/72316892/navigating-to-a-composable-using-a-deeplink-with-jetpack-compose
+https://stackoverflow.com/questions/72481883/jetpack-compose-deeplink-navigation-from-oauth
+
+
+
+
 
 문제 19.
 -> compose 에서 clipboard(클릭보드) 사용하기
