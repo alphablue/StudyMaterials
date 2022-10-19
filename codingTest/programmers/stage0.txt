@@ -4,3 +4,28 @@
 0과 100 사이의 값중 원하는 값을 선택해서 가져오고 싶을 때 range 를 사용하면 편리함
 
 (0..100).filter{} 를 활용하면됨
+
+문제 2)
+-> map 의 key value 나누는 기법, 구조분해기법(destructuring declarations)
+
+페어로 이루어진 값을 하나씩 분리해 변수로 활용이 가능한 기법임
+
+
+문제 3)
+-> 정수의 제곱을 구하기 위해서는 어떻게 해야할까?
+
+ double이나 float 으로 형 변환 이후 pow() 함수를 활용하자
+
+
+문제 4)
+-> list 에서 max 값을 구해야 할 때 컴파일 버전에 따라 사용 하는 방법이 달라짐
+
+kotlin 1.7 이상 -> collection.max()
+kotlin 1.4 이상 -> collection.maxOf{it} 
+
+문제 5)
+-> string 을 정렬 하는 방법은 뭘까?
+
+string 을 정렬하기 위해서는 char list 형으로 변경해 줘야할 필요가 있다.
+
+string.toCharArray().sorted().jointToString("") 의 방법을 사용하면 정렬된 string 을 얻을 수 있다.
