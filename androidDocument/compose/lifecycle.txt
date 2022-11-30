@@ -1,0 +1,15 @@
+고민) 라이프 사이클이 뷰와 결합되어 있을때 compose 는 어떻게 메모리에서 삭제할 수 있을까?
+또는 어떤 생명주기를 가질까?
+
+ompose disposes of the Composition whenever the ComposeView becomes detached from a window. This is undesirable when ComposeView is used in fragments for multiple reasons:
+
+The Composition must follow the fragment's view lifecycle for Compose UI View types to save state, and
+to keep the Compose UI elements on the screen when transitions, or window transitions happen. During transitions, the ComposeView itself is still visible even after it is detached from the window.
+You can manually call the AbstractComposeView.disposeComposition method to dispose of the Composition manually. Alternatively, for disposing Compositions automatically when they're no longer needed, set a different strategy or create your own by calling the setViewCompositionStrategy method.
+
+Use the DisposeOnViewTreeLifecycleDestroyed strategy to dispose of the Composition when the LifecycleOwner of the fragment is destroyed.
+
+As PlantDetailFragment has enter and exit transitions (check nav_garden.xml for more info), and we'll use View types inside Compose later, we need to make sure the ComposeView uses the DisposeOnViewTreeLifecycleDestroyed strategy. Nonetheless, it's a good practice to always set this strategy when using ComposeView in fragments.
+
+<< 해석 필요
+
