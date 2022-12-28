@@ -1,0 +1,22 @@
+
+// 문제 1
+// telephon manager 에서 기본으로 전화 설정이 되어 있는지 확인 하기 위한 방법
+
+val telecomManager = getSystemService(TELECOM_SERVICE) as TelecomManager
+val isAlreadyDefaultDialer = packageName == telecomManager.defaultDialerPackage
+
+-> sdk 29(Q 버전) 이상부터는 roleManager 를 사용하면됨
+val roleManager = getSystemService(Context.ROLE_SERVICE) as RoleManager
+            roleManager.isRoleAvailable(RoleManager.ROLE_DIALER)
+                    .let {
+                        if (it) {
+                            val isRoleHeld = roleManager.isRoleHeld(RoleManager.ROLE_DIALER)
+
+                            if (isRoleHeld.not()) {
+                                roleManager.createRequestRoleIntent(RoleManager.ROLE_DIALER)
+                                        .also { dialer ->
+                                            activityResultLauncher.launch(dialer)
+                                        }
+                            }
+                        }
+                    }
