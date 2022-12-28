@@ -39,3 +39,30 @@ https://www.techiedelight.com/ko/compare-two-dates-in-kotlin/
 
 참고 ) dateFormatter Pattern 정보
 https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+
+추가)
+-> 두 날짜의 비교를 진행하고 싶은데 sdk 별로 하는 방법이 다름 day의 갯수를 세고 싶은 방법
+
+if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val timeNow = LocalDate.now()
+        val inputDay = LocalDate.parse(date, formatter)
+
+        return ChronoUnit.DAYS.between(inputDay, timeNow)
+    } else {
+
+        // sdk O 보다 낮은 경우
+
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
+        val today = Calendar.getInstance()
+
+        // string 으로 바꾼거를 다시 date 객체로 바꾼것
+        val parsedToday = formatter.format(today.time)
+            .let {
+                formatter.parse(it)
+            }
+        val ff = formatter.parse("2021-10-01")
+        val diff = parsedToday.time - ff.time
+
+        return (diff / (1000*60*60*24))
+    }
