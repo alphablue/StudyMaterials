@@ -66,3 +66,77 @@ if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
         return (diff / (1000*60*60*24))
     }
+
+
+문제
+-> 날짜 문자열을 다른 형태의 날짜로 보여 주고 싶을때
+val inputFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
+        val outputFormatter = SimpleDateFormat("MM/dd (EEE)", Locale.KOREA)
+
+        inputFormatter.parse(date)
+            .let {
+                outputFormatter.format(it)
+            }
+
+아래는 팁)
+val outputFormatter1 = SimpleDateFormat("MM/dd (EEEE)", Locale.KOREA)  // 12/12 (목요일)
+val outputFormatter2 = SimpleDateFormat("MM/dd (EEE)", Locale.KOREA)   // 12/12 (목)
+
+    println(outputFormatter1.format(Date()))
+
+
+localDataTime 객체와 localTime 객체의 차이는 뭘까
+
+문제 
+-> LocalDateTime 에서 long 형의 날짜 정보를 받고 활용하기를 원하는데 그게 쉽지 않았음
+
+해결)
+LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
+문제
+-> system.currentTimeMillis() 를 대체 하는 방법
+
+해결)
+Instant.now().toEpochMilli()
+
+
+문제
+-> millis 형태의 날짜데이터를 Long 형으로 받을 때 처리하는 방법
+
+// long 형 날짜를 오늘과 비교해 day 차이를 확인 해 줌
+fun getBetweenDays(date: Long): Long =
+    if (versionCheckOreo()) {
+        val timeNow = LocalDateTime.now()
+        val inputDay = LocalDateTime.ofInstant(Instant.ofEpochMilli(date), ZoneId.systemDefault())
+
+        ChronoUnit.DAYS.between(inputDay, timeNow)
+    } else {
+        val inputDay = Calendar.getInstance().apply { timeInMillis = date }
+        val today = Calendar.getInstance()
+        val diff = today.timeInMillis - inputDay.timeInMillis
+
+        (diff / (1000 * 60 * 60 * 24))
+    }
+
+
+// Long 형 날짜를 yyyy-MM-dd 형식으로 반환해줌
+fun getCurrentTime(): Long =
+    if(versionCheckOreo()) LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+    else Calendar.getInstance().timeInMillis
+
+
+// Long 형 날짜를 yyyy.MM.dd 로 변환
+fun convertDateString(date: Long): String = if(versionCheckOreo()) {
+        val inputFormatter = LocalDateTime.ofInstant(Instant.ofEpochMilli(date), ZoneId.systemDefault())
+        val outputFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd", Locale.KOREA)
+
+        outputFormatter.format(inputFormatter)
+    } else {
+        val inputFormatter = Calendar.getInstance().apply { timeInMillis = date }.time
+        val outputFormatter = SimpleDateFormat("yyyy.MM.dd", Locale.KOREA)
+
+        outputFormatter.format(inputFormatter)
+    }
+
+
+private fun versionCheckOreo() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
