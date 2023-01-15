@@ -1,0 +1,47 @@
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.util.*
+
+/** 아래 걸 쓰거나 InputStreamReader 만쓰거나 둘중 하나가 편함 **/
+class FastReader(
+    var br: BufferedReader = BufferedReader(InputStreamReader(System.`in`))
+) {
+    var st: StringTokenizer? = null
+
+    constructor(s: String) : this() {
+        br = BufferedReader(FileReader(File(s)))
+    }
+
+    operator fun next(): String {
+        while (st == null || !st!!.hasMoreElements()) {
+            try {
+                st = StringTokenizer(br.readLine())
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        return st!!.nextToken()
+    }
+
+    fun nextInt(): Int {
+        return next().toInt()
+    }
+
+    fun nextLong(): Long {
+        return next().toLong()
+    }
+
+    fun nextDouble(): Double {
+        return next().toDouble()
+    }
+
+    fun nextLine(): String {
+        var str = ""
+        try {
+            str = br.readLine()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return str
+    }
+}
