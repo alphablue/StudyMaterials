@@ -20,3 +20,28 @@ val roleManager = getSystemService(Context.ROLE_SERVICE) as RoleManager
                             }
                         }
                     }
+
+
+문제
+-> 휴대폰 주소록 목록을 가져 오는 방법
+
+// 필터로 가져오는 방법
+context.contentResolver.query(
+            Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_FILTER_URI, Uri.encode(searchKeyword)),
+            arrayOf(CommonDataKinds.Phone.DISPLAY_NAME),
+            null,
+            null,
+            null
+        )
+
+// 전체 목록으로 가져오는 방법
+context.contentResolver.query(
+            ContactsContract.Contacts.CONTENT_URI,
+            contactsProjection,
+            "${CommonDataKinds.Phone.HAS_PHONE_NUMBER} =?",
+            arrayOf("1"),
+            sortDisplayName(true)
+        )
+
+loadmanager 를 사용 하거나 contentResolver 를 사용 해야함
+
