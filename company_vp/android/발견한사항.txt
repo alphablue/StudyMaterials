@@ -45,3 +45,116 @@ context.contentResolver.query(
 
 loadmanager 를 사용 하거나 contentResolver 를 사용 해야함
 
+
+
+// 검색 키워드에 맞춘 주소록 목록 가져 오기
+private fun testSearch(searchKeyword: String) {
+        val cursor1 = contentResolver.query(
+            Uri.withAppendedPath(CommonDataKinds.Phone.CONTENT_FILTER_URI, Uri.encode(searchKeyword)),
+            arrayOf(
+                ContactsContract.CommonDataKinds.Phone._ID,
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
+                ContactsContract.CommonDataKinds.Phone.NUMBER,
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY,
+                ContactsContract.CommonDataKinds.Phone.TYPE,
+                ContactsContract.CommonDataKinds.Phone.STARRED,
+                ContactsContract.CommonDataKinds.Phone.PHOTO_ID
+            ),
+            null,
+            null,
+            null
+        )
+
+        cursor1?.use {
+            Log.d("searchCheck", "cursor1 data ($searchKeyword) ----------------\n")
+            while (it.moveToNext()) {
+//                Log.d("searchCheck", "contactData ->  2 :${it.getString(2)}, 3 :${it.getString(3)}")
+                Log.d(
+                    "searchCheck", "contactData ->  2 :${it.getString(convertMinusIndex(it.getColumnIndex(CommonDataKinds.Phone.NUMBER)))}" +
+                            ", 3 :${it.getString(convertMinusIndex(it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)))}"
+                )
+            }
+        }
+    }
+
+private fun convertMinusIndex(idx: Int): Int = if (idx < 0) 0 else idx
+
+위에 코드를 통해서 쉽게 구할 수 있음
+
+<주의>
+Uri.withAppendedPath(CommonDataKinds.Phone.CONTENT_FILTER_URI, Uri.encode(searchKeyword)),
+
+위에서 uri 부분은 projection 에 들어가는 것과 맞춰줘야한다.
+
+projection이 CommonDataKinds 로 구성 된 친구라면 uri 도 CommonDataKinds 의 속성값을 가져야 하고
+ContactsContract.Contacts 로 구성된 친구라면 uri 도 ContactsContract.Contacts.CONTENT_FILTER_URI 로 구성 되어야 한다.
+
+
+문제
+-> 입력받은 값을 토대로 초성도 동일한 부분이 있으면 강조색을 칠 해줘야 함
+
+해결
+-> 여러 시행 착오로 아래의 코드를 사용 하면 초성에 관한 동일한 부분도 인덱스를 구할 수 있도록 했음
+
+fun setSearchKeyWordColorWithChoSung(searchedText: String): SpannableStringBuilder? {
+        val sp = SpannableStringBuilder(searchedText)
+        val searchKeyword = searchKeyWord.value ?: return null
+        val cho = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ".toList() // 19개
+
+        // 인덱스 서치를 위한 문자 분리
+        val searchStr = searchedText.toList()
+        val inputStr = searchKeyword.toList()
+
+        // TODO 제외 해야되는 분기와 검사 부분이 중복되는 것이 있으므로 최적화가 필요함
+        var startIndex = -1 // 한 글자 일 때 처음 검색 인덱스는 0 이라 0 으로 초기화 하면 lastindex 가 문제가 됨
+        var lastIndex = 1 // 한 글자 일 때는 lastindex의 데이터 변경이 안되기 때문에 1로 줌
+
+        for(i in searchStr.indices) {
+            var firstSearched = false
+
+            for(n in inputStr.indices) {
+                if(i + n < searchStr.size) {
+                    // 영문, 일문, 동일한 한글 이면 true
+                    if (searchStr[i + n] == inputStr[n]) {
+                        if (startIndex != i) startIndex = i
+                        else lastIndex = n + 1
+
+                        if(inputStr.size == 1 || inputStr.size -1  == n) {
+                            firstSearched = true
+                        }
+                        continue
+                    }
+                    // 초성인지 확인
+                    else if (inputStr[n] in cho && searchStr[i + n] in ('가'..'힣')) {
+                        if (cho[choIndex(searchStr[i + n])] == inputStr[n]) {
+                            if (startIndex != i) startIndex = i
+                            else lastIndex = n + 1
+
+                            if(inputStr.size == 1 || inputStr.size - 1 == n) {
+                                firstSearched = true
+                            }
+                            continue
+                        }
+                    } else break // 연속해서 동일하지 않다면 중지
+                }
+                break
+            }
+
+            if(i + inputStr.size > searchStr.size || firstSearched) break
+        }
+
+
+        // 모든 검사가 끝났을 때는 비교대상이 되는 문자열의 길이 만큼이 last index 가 되어야 한다.
+        if(inputStr.size != 1 && lastIndex != inputStr.size) return null
+
+        Log.d("choTest", "start index :: $startIndex, last index :: $lastIndex, searched str :: ${searchStr},\ninput str :: $inputStr ")
+
+        return if (startIndex != -1) {
+            sp.apply {
+                setSpan(ForegroundColorSpan(ContextCompat.getColor(this@AtvDialerSearchKt, R.color.dialer_item_part_color_blue)), startIndex, startIndex + lastIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+
+            sp
+        } else null
+    }
+    private fun choIndex(item: Char): Int = ((item.code - 0xAC00)/28)/21
