@@ -29,3 +29,16 @@ activity.startActivity(sendIntent)
 
 참고)
 -> https://negoguma.tistory.com/13
+
+
+문제
+-> PendingIntent 의 flag 별 의미 확인
+
+FLAG_UPDATE_CURRENT : Pending인텐트가 이미 존재할 경우, Extra Data를 모두 대체
+FLAG_CANCEL_CURRENT : Pending인텐트가 이미 존재할 경우, 기존 Pending인텐트를 cancel하고 다시 생성
+FLAG_IMMUTABLE : 이름에서 알 수 있듯이, 기존 PendingIntent 는 변경되지 않구요, 새로 데이터를 추가한 PendingIntent를 보내도 무시함
+FLAG_NO_CREATE: Pending인텐트가 기존에 존재하지 않으면, Null을 return
+FLAG_ONE_SHOT : 이름이 아주 직관적인데요, 한번만 사용할 수 있는 PendingIntent란 뜻 임
+
+참고
+-> https://minchanyoun.tistory.com/m/117
