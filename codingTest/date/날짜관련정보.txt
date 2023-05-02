@@ -121,10 +121,16 @@ fun getBetweenDays(date: Long): Long =
     }
 
 
-// Long 형 날짜를 yyyy-MM-dd 형식으로 반환해줌
 fun getCurrentTime(): Long =
     if(versionCheckOreo()) LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
     else Calendar.getInstance().timeInMillis
+
+문제
+-> 문자열로된 날짜를 Long 형으로 반환하기 위한 작업
+
+fun getStrTime(strDate: String): Long =
+    if(versionCheckOreo()) LocalDate.parse(strDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+    else SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).parse(strDate)?.time ?: -1L
 
 
 // Long 형 날짜를 yyyy.MM.dd 로 변환
