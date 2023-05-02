@@ -1,0 +1,11 @@
+문제.
+-> 뷰에 배경으로 보더를 넣어주고 싶은데 상하에만 주고 좌우는 제거 하고 싶을 때 조정하는 방법
+
+해결.
+-> https://stackoverflow.com/questions/9211208/how-to-draw-border-on-just-one-side-of-a-linear-layout
+
+위 링크에서 보는 것 처럼 2가지 방법이 있음
+1) layer-list에 속성을 활용하는 방법
+2) inset 를 활용해서 제거하는 방법
+
+차이는 잘 모르겠지만 적절하게 활용하면 좋을 것 같다.

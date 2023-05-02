@@ -46,8 +46,7 @@ context.contentResolver.query(
 loadmanager 를 사용 하거나 contentResolver 를 사용 해야함
 
 
-
-// 검색 키워드에 맞춘 주소록 목록 가져 오기
+// 검색 키워드에 맞춘 주소록(연락처) 목록 가져 오기
 private fun testSearch(searchKeyword: String) {
         val cursor1 = contentResolver.query(
             Uri.withAppendedPath(CommonDataKinds.Phone.CONTENT_FILTER_URI, Uri.encode(searchKeyword)),
@@ -89,6 +88,19 @@ Uri.withAppendedPath(CommonDataKinds.Phone.CONTENT_FILTER_URI, Uri.encode(search
 projection이 CommonDataKinds 로 구성 된 친구라면 uri 도 CommonDataKinds 의 속성값을 가져야 하고
 ContactsContract.Contacts 로 구성된 친구라면 uri 도 ContactsContract.Contacts.CONTENT_FILTER_URI 로 구성 되어야 한다.
 
+
+<주의2>
+위의 방식으로 가져올 때 숫자로 검색하면 휴대폰 번호는 잘 가져오지만 문자로 검색 할때 연락처 정보를 못가져 오는 문제가 있다. 때문에 구분해서 쿼리를 날려줄 필요가 있음
+
+// 숫자 검색
+if (DataUtil.isNumeric(searchKeyword)) {
+    cursorLoaderDataModel.uri = Uri.withAppendedPath(Phone.CONTENT_FILTER_URI, Uri.encode(searchKeyword));
+    cursorLoaderDataModel.projections = getCommonDataKindsPhoneProjection();
+} else { // 문자검색
+    cursorLoaderDataModel.uri = Uri.withAppendedPath(Contacts.CONTENT_FILTER_URI, Uri.encode(searchKeyword));
+    cursorLoaderDataModel.projections = getContactsProjection();
+    cursorLoaderDataModel.selection = ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1";
+}
 
 문제
 -> 입력받은 값을 토대로 초성도 동일한 부분이 있으면 강조색을 칠 해줘야 함
@@ -158,3 +170,18 @@ fun setSearchKeyWordColorWithChoSung(searchedText: String): SpannableStringBuild
         } else null
     }
     private fun choIndex(item: Char): Int = ((item.code - 0xAC00)/28)/21
+
+
+문제
+-> 파이어베이스 이벤트 통계 수집 확인
+
+파이어베이스 통계수집은 바로 반영이 안되는 경우가 있기 때문에 로그를 통해서 정상적으로 보내지는지 확인을 위해서 작업을 해야 할 필요가 있음 터미널에서 adb 로 확인을 하고 그 작업은 아래 블로그를 확인
+
+https://heeeju4lov.tistory.com/33
+
+<로그창에서 확인한 예시>
+03-02 15:34:34.475 V/FA-SVC  (14737): Logging event: origin=app,name=whowho_event,params=Bundle[{ga_event_origin(_o)=app, ga_screen_class(_sc)=AtvDialerSearchKt, ga_screen_id(_si)=-4666978529172594351, total=검색_검색액션_검색어_호랑이}]
+03-02 15:34:34.489 V/FA-SVC  (14737): Upload scheduled in approximately ms: 2361754
+03-02 15:34:34.489 V/FA-SVC  (14737): Unscheduling upload
+03-02 15:34:34.490 V/FA-SVC  (14737): Scheduling upload, millis: 2361754
+03-02 15:34:34.495 V/FA-SVC  (14737): Background event processing time, ms: 20
