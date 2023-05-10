@@ -1,0 +1,5 @@
+문제 1)
+문자열이 주어질때 각 문자별로 조합가능한 경우를 리스트로 받고 싶을 때 사용 할 수 있는 방법
+
+fun String.permute(result: String = ""): List<String> =
+    if (isEmpty()) listOf(result) else flatMapIndexed { i, c -> removeRange(i, i + 1).permute(result + c) }
