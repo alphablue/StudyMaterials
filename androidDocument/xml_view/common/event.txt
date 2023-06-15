@@ -1,0 +1,15 @@
+문제
+-> 사용자가 빠르게 클릭을 한다면 같은 이벤트를 클릭수 만큼 호출하는 문제가 있다. 이를 방지하기 위해서 클릭이벤트를 받는 것에 대한 딜레이를 줄 필요가 있음
+
+해결
+->
+@BindingAdapter("singleClick")
+fun View.setSingleClick(doClick: () -> Unit) =
+    setOnClickListener(
+        DebouncingOnClickListener( 
+            intervalMillis = 5000, //5ms delay for click event
+            doClick = doClick
+        )
+    )
+
+
