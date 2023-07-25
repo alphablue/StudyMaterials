@@ -42,3 +42,31 @@ FLAG_ONE_SHOT : 이름이 아주 직관적인데요, 한번만 사용할 수 있
 
 참고
 -> https://minchanyoun.tistory.com/m/117
+
+
+문제
+-> 기본 문자 앱 실행하기 , 일반적인 사용으로는 메신저 앱 실행시 뜨는 휴대폰 목록이 뜨는게 아니라 메신저 보내기 화면이 뜸
+
+해결)
+->
+
+1. 기본패키지를 가져와 패키지자체를 실행 시키도록 하는 방법이 있음
+
+val defaultSms = Telephony.Sms.getDefaultSmsPackage(requireContext())
+val intentSms = requireContext().packageManager.getLaunchIntentForPackage(defaultSms)  // 기본 패키지를 가져오는 부분
+    ?: Intent(Intent.CATEGORY_DEFAULT).apply { addCategory(Intent.CATEGORY_APP_MESSAGING) } // 일반적인 실행 방법
+
+if(intentSms.resolveActivity(requireContext().packageManager) != null) {
+    startActivity(intentSms)
+} else {
+    Toast.makeText(requireContext(), "사용 가능한 메신저 앱이 없습니다.", Toast.LENGTH_LONG).show()
+}
+
+위에 처럼 처리하면 가능하다. 기본 패키지를 가져왔고 패키지를 토대로 실행하도록 함
+
+참조)
+https://developer.android.com/guide/components/intents-common#Messaging
+https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=newyorkinms&logNo=220373497960
+https://stackoverflow.com/questions/37111922/how-to-open-sms-app-via-implicit-intent
+
+
