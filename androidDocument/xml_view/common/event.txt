@@ -13,3 +13,37 @@ fun View.setSingleClick(doClick: () -> Unit) =
     )
 
 
+문제
+-> xml 상에서 databinding을 활용해 이벤트를 넘기고 싶은데 방법은?
+
+해결
+-> 뷰모델의 함수의 이동이 가능함
+viewModel::function
+
+으로 xml 상에서 주고 받을 수 있다.
+
+// 파라미터가 1개인 경우
+<import type="kotlin.jvm.functions.Function0" />
+
+<import type="kotlin.Unit" />
+
+<variable
+    name="action"
+    type="Function0&lt;Unit>" />
+
+...
+android:onClick="@{() -> action.invoke()}"
+...
+
+// 파라미터가 많은 경우
+<import type="kotlin.jvm.functions.Function2" />
+
+<import type="kotlin.Unit" />
+
+<variable
+    name="action"
+    type="Function2&lt;Integer, String, Unit>"/>
+
+
+참조)
+https://stackoverflow.com/questions/63786530/with-data-binding-how-to-pass-functionor-lambda-variable-to-included-layout
