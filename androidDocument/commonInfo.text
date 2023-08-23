@@ -10,3 +10,80 @@
 참조)
 https://stackoverflow.com/questions/45949294/phone-and-tablet-module-vs-android-library
 https://kokohapps.tistory.com/entry/Android-Module-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EB%B9%84%EC%8A%B7%ED%95%9C-%EC%95%B1-%EC%97%AC%EB%9F%AC%EA%B0%9C-%EC%B0%8D%EC%96%B4%EB%82%B4%EA%B8%B0
+
+
+
+
+--------------- 정리 필요 ====
+
+타이머 만들기
+
+ private val START_TIME_STAMP = 180_000L  // 3분
+    private val TICK_INTERVAL = 1000L        // 1초 시간
+
+    private val TOTAL_SECOND = 180           // 3분
+
+
+val smsOtpText = MutableLiveData("")
+    val otpTimeText = MutableStateFlow(START_TIME_STAMP) // 3분
+
+    private val _timerValue = MutableStateFlow(TimerState(0, false))
+    val timerValue = _timerValue.asStateFlow()
+
+    val otpAlertState = MutableLiveData(false)
+
+    private var oldTimeMills: Long = 0L
+    private var timerSchedule: Job? = null
+
+    val timerJob = viewModelScope.launch(start = CoroutineStart.LAZY) {
+        withContext(Dispatchers.IO) {
+            oldTimeMills = System.currentTimeMillis()
+
+            while (otpTimeText.value > 0L) {
+                val delayMills = System.currentTimeMillis() - oldTimeMills
+                if (delayMills == TICK_INTERVAL) {
+                    otpTimeText.value = otpTimeText.value - delayMills
+                    oldTimeMills = System.currentTimeMillis()
+                }
+            }
+        }
+    }
+
+    fun startTime(action: () -> Unit) {
+        action()
+
+        timerSchedule = viewModelScope.launch {
+            initTimer()
+                .onCompletion {
+                    _timerValue.emit(TimerState(0, false))
+                    otpAlertState.value = true
+                }
+                .collect { _timerValue.emit(it) }
+        }
+    }
+
+    fun stopTime() {
+        timerSchedule?.let {
+            it.cancel()
+            timerSchedule = null
+        }
+    }
+
+    private fun initTimer(totalSeconds: Int = TOTAL_SECOND): Flow<TimerState> = (totalSeconds - 1 downTo 0).asFlow()
+        .onEach { delay(1000) }
+        .onStart { emit(totalSeconds) }
+        .conflate()
+        .transform {
+            emit(TimerState(it, true))
+        }
+
+        data class TimerState(
+    val time: Int,
+    val state: Boolean
+) {
+    fun convertTimeText(): String {
+        val min = time / 60
+        val second = time % 60
+        return "%02d:%02d".format(min, second)
+    }
+}
