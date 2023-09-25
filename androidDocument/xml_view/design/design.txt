@@ -1,0 +1,59 @@
+문제.
+-> 뷰에 배경으로 보더를 넣어주고 싶은데 상하에만 주고 좌우는 제거 하고 싶을 때 조정하는 방법
+
+해결.
+-> https://stackoverflow.com/questions/9211208/how-to-draw-border-on-just-one-side-of-a-linear-layout
+
+위 링크에서 보는 것 처럼 2가지 방법이 있음
+1) layer-list에 속성을 활용하는 방법
+2) inset 를 활용해서 제거하는 방법
+
+차이는 잘 모르겠지만 적절하게 활용하면 좋을 것 같다.
+
+
+문제.
+-> 기본 테마들의 다크모드, 라이트모드 설정이 있는데 xml을 사용할 경우 설정된 테마가 있는지 살펴봐야 할 필요가 있다.
+
+new TimePickerDialog(requireContext(),
+                CommonExtKt.isNightMode(WhoWhoAPP.getAppContext()) ? android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK 또는 android.R.style.Theme_DeviceDefault_Dialog_Alert
+                        :android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT ,
+                mTimeSetListener, mHour, mMinute, false);
+
+위의 코드 기준으로 볼때, 기본 픽커를 생성 할 때 스타일을 넣을 수 있는데 다크모드의 정의된 기본 색상이 있어 위의 코드를 통해서 설정 할 수 있다.
+다만 이건 코드 레벨로 분기 처리 해야하니 귀찮아지는 부분이 있는데 이것을 xml themes에 설정 해 주다면 다크/라이트 모드의 설정을 쉽게 할 수 있다.
+
+<values/themes.xml>
+  <style name="TimePickerDialog" parent="android:Theme.DeviceDefault.Light.Dialog.Alert"/>
+
+<value-night/themes.xml>
+  <style name="TimePickerDialog" parent="android:Theme.DeviceDefault.Dialog.Alert"/>  <-- 다크 모드는 기본 이름이고 라이트는 라이트라고 이름이 붙음
+
+하지만 커스텀을 하고 싶다)
+-> 이 경우에는 또 일일이 작성을 할 필요가 있다.
+
+<style name="TimePickerDialogTheme" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#ff2d6073</item>
+        <item name="android:timePickerStyle">@style/TimePickerDialogStyle</item>
+    </style>
+
+    <style name="TimePickerDialogStyle" parent="@android:style/Widget.Material.Light.TimePicker">
+        <item name="colorAccent">#ff2d6073</item>
+        <item name="android:timePickerMode">clock</item>
+        <item name="android:headerBackground">@color/contentSecondaryWithAlert</item>
+        <item name="android:headerTimeTextAppearance">@style/TextAppearance.TimePickerDialogStyle.TimeLabel</item>
+        <item name="android:numbersTextColor">@color/contentPrimary</item>
+        <item name="android:numbersSelectorColor">@color/secondary</item>
+        <item name="android:numbersBackgroundColor">@color/contentSecondaryWithAlert</item>
+    </style>
+
+    <style name="TextAppearance.TimePickerDialogStyle.TimeLabel" parent="@android:style/TextAppearance.Material">
+        <item name="android:textSize">60dp</item>
+        <item name="android:textColor">@color/contentPrimary</item>
+    </style>
+
+아래처럼 각각을 상속받아서 거기에 맞는 컬러를 선택해서 넣어 줄 필요가 있다.
+
+참조.
+-> https://github.com/material-components/material-components-android/blob/master/docs/components/DatePicker.md
+-> https://stackoverflow.com/questions/32678968/android-timepickerdialog-styling-guide-docs
+

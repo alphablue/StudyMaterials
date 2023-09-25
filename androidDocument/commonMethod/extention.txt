@@ -1,0 +1,16 @@
+문제)
+-> 앱 내부 리소스의 Uri를 String 으로 가져 오기 위한 방법이 필요하다, glide 등에서 필요로 함
+
+해결)
+-> 이미지 리소스의 Uri를 가져 올 수 있었음
+fun Int.getResourceUri(context: Context): String {
+	return context.resources.let {
+		Uri.Builder()
+			.scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+			.authority(it.getResourcePackageName(this))		// it : resources, this : ResId(Int)
+			.appendPath(it.getResourceTypeName(this))		// it : resources, this : ResId(Int)
+			.appendPath(it.getResourceEntryName(this))		// it : resources, this : ResId(Int)
+			.build()
+			.toString()
+	}
+}
