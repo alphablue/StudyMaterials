@@ -1,0 +1,9 @@
+전 세계 전화번호 포팅 라이브러리(국제전화) -> 구글 공식
+:: https://github.com/google/libphonenumber
+
+숫자가 롤링되는 라이브러리
+-> https://github.com/YvesCheung/RollingText
+
+인디케이터
+-> https://github.com/tommybuonomo/dotsindicator
+
